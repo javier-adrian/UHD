@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in | UHD</title>
+    <link rel="stylesheet" href="./output.css">
+</head>
+<body class="bg-neutral-200 font-inter">
+    <div class="my-[75px] flex justify-center">
+        <h1 class="text-2xl md:text-4xl font-medium">
+            <span class="font-black text-rose-950">U</span>ser
+            <span class="font-black text-rose-950">H</span>ealth
+            <span class="font-black text-rose-950">D</span>eclaration
+        </h1>
+    </div>
+    <div id="login">
+        <form id="frmLogin" class="m-[50px] flex justify-center" action="#" method="POST">
+            <div class="p-8 border-2 border-rose-950 rounded-2xl bg-white">
+                <div id="admin-msg"></div>
+                <label for="username" class="mb-4 basis-full text-xs md:text-base font-bold w-full shrink-0">
+                    Username
+                </label>
+
+                <input type="text" name="username" id="username" class="my-4 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+
+                <div class="flex">
+                    <label for="password" class="mb-4 text-xs md:text-base font-bold flex-1 basis-3/6">
+                        Password
+                    </label>
+
+                    <a href="#" onclick="return false" class="mb-4 text-xs md:text-base font-medium text-right text-rose-950 flex-1 basis-3/6">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <input type="password" name="password" id="password" class="py-2 px-2 mb-8 border-0 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+                <input type="hidden" name="action" value="isLogin">
+
+                <button type="submit" class="py-2 text-sm md:text-lg text-white font-bold w-full rounded-md bg-rose-950">Log in</button>
+
+                <div class="mt-8 flex flex-wrap justify-center">
+                    <div class="mr-[120px] md:mr-[0px] mb-8 flex-1 flex flex-nowrap gap-1 items-center">
+                        <input id="remember" type="checkbox" class="rounded border-rose-950 text-rose-950 focus:ring-0">
+
+                        <label for="remember" class="ml-1 text-xs md:text-base text-nowrap font-medium leading-6">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <p class="sm:mx-[10px] md:mx-[0px] md:ml-[50px] text-xs md:text-base text-center md:text-right font-medium text-nowrap flex-1">
+                        New to UHD? <a class="text-rose-950" href="register/index.html">Create an account</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--  These are quite literally dependencies as per the code literally given  -->
+    <script src="jquery-3.7.1.min.js"></script>
+<!--    <script src="form-validator.min.js"></script>-->
+
+    <!--  actual code  -->
+    <script src="login.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            Login().init();
+        })
+    </script>
+</body>
+</html>
