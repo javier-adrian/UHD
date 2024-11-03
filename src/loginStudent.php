@@ -38,8 +38,9 @@ class LoginStudent
                     return $stmt->error;
                 }
             } else {
-                return 'USER_NOT_FOUND';
+                return $conn->error;
             }
+            $conn->close();
         }
     }
     public function doLogin($username, $password)
