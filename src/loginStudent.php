@@ -43,6 +43,53 @@ class LoginStudent
             $conn->close();
         }
     }
+
+    public function getHashPassword($username)
+    {
+        error_reporting(E_ERROR);
+        $config = new Config();
+
+        $conn = $config->conn;
+
+        if ($conn->connect_error)
+        {
+            return $conn->connect_error;
+        } else {
+            $query = 'SELECT password from users where username = ?';
+
+            if ($stmt = $conn->prepare($query))
+            {
+                $stmt->bind_param('s', $username);
+
+                if ($stmt->execute())
+                {
+                    $stmt->bind_result($password);
+                    $stmt->store_result();
+
+                    if ($stmt->num_rows > 0) {
+                        while($stmt->fetch())
+                        {
+                            return crypt($password, "JL^Dm_dJj2pZ");
+                        }
+                    }
+
+                    $stmt->close();
+                } else {
+                    return $stmt->error;
+                }
+            } else {
+                return $conn->error;
+            }
+
+            $conn->close();
+        }
+    }
+
+    public function verifyInput($password, $hashpassword)
+    {
+        return crypt($password, "JL^Dm_dJj2pZ") == $hashpassword;
+    }
+
     public function doLogin($username, $password)
     {
         $app = new LoginStudent();
@@ -52,19 +99,17 @@ class LoginStudent
 
         if ($checkUser == 'USER_FOUND') {
 
-            return json_encode(['isSuccess' => true, 'value' => 1, 'msg' => "User found."]);
-//            $hashpassword = $app->getHashPasword($username);
-//            $verifypassword = $app->verifyInput($password, $hashpassword);
-//
-//            if ($verifypassword == 1) {
-//                $response['isSuccess'] = true;
-//                $response['value'] = 1;
-//                $response['msg'] = "Login Successful";
-//            } else {
-//                $response['isSuccess'] = false;
-//                $response['value'] = 0;
-//                $response['msg'] = "Invalid Login Credentials";
-//            }
+            $hashpassword = $app->getHashPassword($username);
+
+            if (crypt($password, "JL^Dm_dJj2pZ") == $hashpassword) {
+                $response['isSuccess'] = true;
+                $response['value'] = 1;
+                $response['msg'] = "Login Successful";
+            } else {
+                $response['isSuccess'] = false;
+                $response['value'] = 0;
+                $response['msg'] = "Invalid Login Credentials";
+            }
         } else if ($checkUser == 'USER_NOT_FOUND') {
             $response['isSuccess'] = false;
             $response['value'] = 0;
