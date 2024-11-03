@@ -1,16 +1,9 @@
 <?php
 
 session_start();
-if (isset($_SESSION['username'])) {
-    $arr = array(
-        'isSuccess' => true
-    );
-} else {
-    $arr = array(
-        'isSuccess' => false,
-        'value' => 0,
-        'msg' => 'inactive session',
-    );
-}
+
+//session_unset(); // reset button
+
+$arr = array('isSuccess' => isset($_SESSION['username']));
 
 echo json_encode($arr);

@@ -18,9 +18,8 @@ var onLogin = function () {
         var loginObj = $('#frmLogin').serializeArray();
 
         $.post('loginStudent.php', loginObj, function(data) {
-            console.log(data)
+            // console.log(data)
             if (!data.isSuccess) {
-                // console.log("fail")
                 var msg = data.msg;
                 var alert = '<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">' +
                     msg +

@@ -11,10 +11,8 @@ class LoginStudent
         $conn = $config->conn;
 
         if ($conn->connect_error)
-        {
             return $conn->connect_error;
-        } else {
-
+        else {
             $query = 'SELECT username from users where username = ?';
 
             if ($stmt = $conn->prepare($query))
@@ -34,12 +32,11 @@ class LoginStudent
                         $stmt->close();
                         return 'USER_NOT_FOUND';
                     }
-                } else {
+                } else
                     return $stmt->error;
-                }
-            } else {
+            } else
                 return $conn->error;
-            }
+
             $conn->close();
         }
     }
@@ -52,9 +49,8 @@ class LoginStudent
         $conn = $config->conn;
 
         if ($conn->connect_error)
-        {
             return $conn->connect_error;
-        } else {
+        else {
             $query = 'SELECT password from users where username = ?';
 
             if ($stmt = $conn->prepare($query))
@@ -66,20 +62,15 @@ class LoginStudent
                     $stmt->bind_result($password);
                     $stmt->store_result();
 
-                    if ($stmt->num_rows > 0) {
+                    if ($stmt->num_rows > 0)
                         while($stmt->fetch())
-                        {
                             return crypt($password, "JL^Dm_dJj2pZ");
-                        }
-                    }
 
                     $stmt->close();
-                } else {
+                } else
                     return $stmt->error;
-                }
-            } else {
+            } else
                 return $conn->error;
-            }
 
             $conn->close();
         }
@@ -136,10 +127,8 @@ if (isset($_REQUEST['action'])) {
         echo $response;
         $decode_response = json_decode($response);
 
-        if ($decode_response->isSuccess) {
+        if ($decode_response->isSuccess)
             $_SESSION['username'] = $username;
-        }
     }
-} else {
+} else
     echo 'ERROR: No direct access';
-}
