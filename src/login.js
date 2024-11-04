@@ -32,7 +32,6 @@ var onLogin = function () {
         var loginObj = $('#frmLogin').serializeArray();
 
         $.post('loginStudent.php', loginObj, function(data) {
-            // console.log(data)
             if (!data.isSuccess) {
                 var msg = data.msg;
                 var alert = '<div class="bg-red-100 border border-red-400 text-red-700 mb-2 px-4 py-3 rounded relative" role="alert">' +
@@ -49,7 +48,6 @@ var onLogin = function () {
 					document.getElementById("admin-msg").innerHTML = "";
 				};
             } else {
-                // console.log("success")
                 var msg = data.msg;
                 checkSession();
             }
