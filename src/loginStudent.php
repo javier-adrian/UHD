@@ -64,7 +64,7 @@ class LoginStudent
 
                     if ($stmt->num_rows > 0)
                         while($stmt->fetch())
-                            return crypt($password, "JL^Dm_dJj2pZ");
+                            return $password;
 
                     $stmt->close();
                 } else
@@ -78,7 +78,7 @@ class LoginStudent
 
     public function verifyInput($password, $hashpassword)
     {
-        return crypt($password, "JL^Dm_dJj2pZ") == $hashpassword;
+        return crypt($password, $hashpassword) == $hashpassword;
     }
 
     public function doLogin($username, $password)
@@ -91,8 +91,9 @@ class LoginStudent
         if ($checkUser == 'USER_FOUND') {
 
             $hashpassword = $app->getHashPassword($username);
+            $verifyPassword = $app->verifyInput($password, $hashpassword);
 
-            if (crypt($password, "JL^Dm_dJj2pZ") == $hashpassword) {
+            if ($verifyPassword) {
                 $response['isSuccess'] = true;
                 $response['value'] = 1;
                 $response['msg'] = "Login Successful";
