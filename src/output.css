@@ -819,8 +819,8 @@ select {
   position: relative;
 }
 
-.bottom-0 {
-  bottom: 0px;
+.bottom-4 {
+  bottom: 1rem;
 }
 
 .right-0 {
@@ -865,6 +865,10 @@ select {
   margin-bottom: 25px;
 }
 
+.me-3 {
+  margin-inline-end: 0.75rem;
+}
+
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -891,26 +895,6 @@ select {
 
 .mt-\[75px\] {
   margin-top: 75px;
-}
-
-.me-3 {
-  margin-inline-end: 0.75rem;
-}
-
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
-.ml-2 {
-  margin-left: 0.5rem;
-}
-
-.mt-32 {
-  margin-top: 8rem;
-}
-
-.mt-36 {
-  margin-top: 9rem;
 }
 
 .block {
@@ -941,16 +925,12 @@ select {
   display: none;
 }
 
-.h-6 {
-  height: 1.5rem;
-}
-
 .h-4 {
   height: 1rem;
 }
 
-.h-8 {
-  height: 2rem;
+.h-6 {
+  height: 1.5rem;
 }
 
 .w-1 {
@@ -961,20 +941,16 @@ select {
   width: 8rem;
 }
 
+.w-4 {
+  width: 1rem;
+}
+
 .w-6 {
   width: 1.5rem;
 }
 
 .w-full {
   width: 100%;
-}
-
-.w-4 {
-  width: 1rem;
-}
-
-.w-8 {
-  width: 2rem;
 }
 
 .max-w-\[1050px\] {
@@ -1150,20 +1126,12 @@ select {
   padding-right: 0.5rem;
 }
 
-.pt-8 {
-  padding-top: 2rem;
+.pt-3 {
+  padding-top: 0.75rem;
 }
 
-.pt-16 {
-  padding-top: 4rem;
-}
-
-.pb-2 {
-  padding-bottom: 0.5rem;
-}
-
-.pt-32 {
-  padding-top: 8rem;
+.pt-3\.5 {
+  padding-top: 0.875rem;
 }
 
 .text-center {
@@ -1197,16 +1165,6 @@ select {
   line-height: 1rem;
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
 .font-black {
   font-weight: 900;
 }
@@ -1235,6 +1193,11 @@ select {
   line-height: 1.5rem;
 }
 
+.text-gray-200 {
+  --tw-text-opacity: 1;
+  color: rgb(229 231 235 / var(--tw-text-opacity));
+}
+
 .text-neutral-600 {
   --tw-text-opacity: 1;
   color: rgb(82 82 82 / var(--tw-text-opacity));
@@ -1258,11 +1221,6 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-gray-200 {
-  --tw-text-opacity: 1;
-  color: rgb(229 231 235 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -1353,8 +1311,24 @@ select {
     display: flex;
   }
 
+  .md\:h-6 {
+    height: 1.5rem;
+  }
+
+  .md\:w-6 {
+    width: 1.5rem;
+  }
+
   .md\:w-full {
     width: 100%;
+  }
+
+  .md\:pt-3 {
+    padding-top: 0.75rem;
+  }
+
+  .md\:pt-2 {
+    padding-top: 0.5rem;
   }
 
   .md\:text-center {
