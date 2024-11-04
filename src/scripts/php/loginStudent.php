@@ -118,8 +118,10 @@ class LoginStudent
 
 $app = new LoginStudent();
 
-if (isset($_REQUEST['action'])) {
-    if ($_REQUEST['action'] == 'isLogin') {
+if (isset($_REQUEST['action']))
+{
+    if ($_REQUEST['action'] == 'isLogin')
+    {
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
 
