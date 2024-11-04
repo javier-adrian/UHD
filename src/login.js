@@ -25,6 +25,13 @@ var checkSession = function() {
     });
 };
 
+var handleFormEvents = function () {
+    $.validate({
+        form: '#frmLogin',
+        modules: 'security'
+        });
+};
+
 var onLogin = function () {
     $("#frmLogin").submit(function(e) {
         e.preventDefault();
@@ -61,7 +68,7 @@ var Login = function() {
     return {
         init: function() {
             checkSession()
-            // handleFormEvents()
+            handleFormEvents()
             onLogin()
         }
     }
