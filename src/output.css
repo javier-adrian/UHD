@@ -1126,10 +1126,6 @@ select {
   padding-right: 0.5rem;
 }
 
-.pt-3 {
-  padding-top: 0.75rem;
-}
-
 .pt-3\.5 {
   padding-top: 0.875rem;
 }
@@ -1256,7 +1252,7 @@ select {
 @font-face {
   font-family: "Inter";
 
-  src: url("Inter-VariableFont_slnt,wght.ttf");
+  src: url("assets/Inter-VariableFont_slnt,wght.ttf");
 }
 
 .focus\:ring-0:focus {
@@ -1325,10 +1321,6 @@ select {
 
   .md\:pt-3 {
     padding-top: 0.75rem;
-  }
-
-  .md\:pt-2 {
-    padding-top: 0.5rem;
   }
 
   .md\:text-center {

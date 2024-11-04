@@ -13,7 +13,7 @@ var formatBlock = function () {
 }
 
 var checkSession = function() {
-    $.get('checkSession.php', function(data) {
+    $.get('php/checkSession.php', function(data) {
         var sessiondata = $.parseJSON(data);
         if(sessiondata.isSuccess) {
             console.log("active session")
@@ -38,7 +38,7 @@ var onLogin = function () {
         $('#login').block(formatBlock());
         var loginObj = $('#frmLogin').serializeArray();
 
-        $.post('loginStudent.php', loginObj, function(data) {
+        $.post('php/loginStudent.php', loginObj, function(data) {
             if (!data.isSuccess) {
                 var msg = data.msg;
                 var alert = '<div class="text-sm align-middle md:text-base bg-red-100 border border-red-400 text-red-700 mb-2 px-4 py-3 pt-3.5 md:pt-3 rounded relative" role="alert">' +
