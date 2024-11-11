@@ -18,7 +18,7 @@ var checkSession = function() {
         var sessiondata = $.parseJSON(data);
         if(sessiondata.isSuccess) {
             console.log("active session")
-            $(location).attr('href','dashboard.html');
+            $(location).attr('href','dashboard/index.html');
         } else {
             console.log("inactive session")
             // loadFirst();
