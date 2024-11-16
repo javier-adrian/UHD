@@ -6,55 +6,55 @@
     <title>Sign up | UHD</title>
     <link rel="stylesheet" href="../output.css">
 </head>
-<body class="bg-neutral-200 font-inter">
+<body class="bg-white font-inter">
     <div class="mt-[75px] mb-[25px] md:mb-[30px] flex justify-center">
-        <h1 class="text-2xl md:text-4xl font-medium">
-            <span class="font-black text-rose-950">U</span>ser
-            <span class="font-black text-rose-950">H</span>ealth
-            <span class="font-black text-rose-950">D</span>eclaration
+        <h1 class="xs:text-xl sm:text-2xl md:text-4xl font-medium">
+            <span class="font-bold text-stone-900">Yet Another</span>
+            <span class="font-bold text-red-500">Money</span>
+            <span class="font-bold text-blue-500">Manager</span>
         </h1>
     </div>
 
     <div id="signup" class="flex justify-center">
         <form id="frmRegister" class="max-w-[500px] m-[50px] flex justify-center" action="#" method="POST">
             <input type="hidden" name="action" value="isSignup">
-            <div class="p-8 border-2 border-rose-950 rounded-2xl bg-white">
-                <h2 class="text-2xl md:text-4xl font-semibold mb-8 ml-1">
+            <div class="p-8 border-0 border-rose-950 rounded-2xl bg-white">
+                <h2 class="text-stone-900 text-2xl md:text-4xl font-semibold mb-8 ml-1">
                     Create account
                 </h2>
 
                 <div id="admin-msg"></div>
 
-                <label for="username" class="ml-1 my-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
+                <label for="username" class="text-stone-900 ml-1 my-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
                     Username
                 </label>
-                <input name="username" type="text" id="username" class="mt-4 mb-8 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+                <input name="username" type="text" id="username" class="mt-4 mb-8 py-2 px-2 w-full border-0 border-b-2 border-stone-900 focus:outline-none focus:ring-0 focus:border-red-500">
 
-                <label for="email" class="ml-1 mb-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
+                <label for="email" class="text-stone-900 ml-1 mb-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
                     Email address
                 </label>
-                <input name="email" type="email" id="email" class="mt-4 mb-8 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+                <input name="email" type="email" id="email" class="mt-4 mb-8 py-2 px-2 w-full border-0 border-b-2 border-stone-900 focus:outline-none focus:ring-0 focus:border-red-500">
 
-                <label for="contact" class="ml-1 mb-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
+                <label for="contact" class="text-stone-900 ml-1 mb-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
                     Contact number
                 </label>
-                <input name="number" type="text" pattern="[0-9]{11}" id="contact" class="mt-4 mb-8 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+                <input name="number" type="text" pattern="[0-9]{11}" id="contact" class="mt-4 mb-8 py-2 px-2 w-full border-0 border-b-2 border-stone-900 focus:outline-none focus:ring-0 focus:border-red-500">
 
 
-                <label for="password" class="ml-1 mb-4 text-xs md:text-base font-semibold">
+                <label for="password" class="text-stone-900 ml-1 mb-4 text-xs md:text-base font-semibold">
                     Password
                 </label>
-                <input name="password" type="password" id="password" class="mt-4 mb-8 py-2 px-2 border-0 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+                <input name="password" type="password" id="password" class="mt-4 mb-8 py-2 px-2 w-full border-0 border-b-2 border-stone-900 focus:outline-none focus:ring-0 focus:border-red-500">
 
-                <label for="confirm-password" class="ml-1 mb-4 text-xs md:text-base font-semibold">
+                <label for="confirm-password" class="text-stone-900 ml-1 mb-4 text-xs md:text-base font-semibold">
                     Confirm password
                 </label>
-                <input name="confirmPassword" type="password" id="confirm-password" class="mt-4 mb-2 py-2 px-2 border-0 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+                <input name="confirmPassword" type="password" id="confirm-password" class="mt-4 mb-8 py-2 px-2 w-full border-0 border-b-2 border-stone-900 focus:outline-none focus:ring-0 focus:border-red-500">
 
-                <button id="registerButton" class="mt-8 py-2 text-sm md:text-lg text-white font-bold w-full rounded-md bg-rose-950">Sign up</button>
+                <button id="registerButton" class="mt-8 py-2 text-sm md:text-lg text-white font-bold w-full rounded-md bg-red-500 hover:bg-blue-500">Sign up</button>
 
-                <p class="sm:mx-[10px] md:mx-[0px] mt-8 text-xs md:text-base text-center md:text-center font-medium text-nowrap flex-1">
-                    Already have an account? <a class="text-rose-950" href="../index.html">Log in</a>
+                <p class="text-stone-900 sm:mx-[10px] md:mx-[0px] mt-8 text-xs md:text-base text-center md:text-center font-medium text-nowrap flex-1">
+                    Already have an account? <a class="text-red-500 hover:text-blue-500" href="../index.html">Log in</a>
                 </p>
             </div>
         </form>
