@@ -16,117 +16,11 @@
     </div>
 
     <div class="flex justify-center">
-        <form id="frmRegister" class="max-w-[1050px] m-[50px] flex-1 justify-center" action="#" method="POST">
+        <form id="frmRegister" class="max-w-[500px] m-[50px] flex justify-center" action="#" method="POST">
             <div class="p-8 border-2 border-rose-950 rounded-2xl bg-white">
                 <h2 class="text-2xl md:text-4xl font-semibold mb-8 ml-1">
                     Create account
                 </h2>
-
-                <div class="border-t border-b-neutral-200 mb-4"></div>
-
-                <h3 class="text-md md:text-xl font-semibold mt-8 mb-2 ml-1">
-                    Personal information
-                </h3>
-                <p class="text-xs md:text-md font-medium text-neutral-600 mt-2 mb-8 ml-1">
-                    This information will be shared publicly with the system.
-                </p>
-
-                <div class="border-b border-b-neutral-200 mb-4 pb-4">
-                    <div class="md:flex flex-wrap mb-4">
-                        <div class="flex-1">
-                            <label for="first-name" class="ml-1 text-nowrap text-xs md:text-base font-semibold w-full shrink-0">
-                                First name
-                            </label>
-                            <input name="firstName" type="text" id="first-name" class="mt-4 mb-4 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                        </div>
-                        <div class="flex-1 md:ml-4">
-                            <label for="middle-name" class="ml-1 text-nowrap text-xs md:text-base font-semibold w-full shrink-0">
-                                Middle name
-                            </label>
-                            <input name="middleName" type="text" id="middle-name" class="mt-4 mb-4 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                        </div>
-                        <div class="flex flex-1 md:ml-4">
-                            <div class="flex-1 basis-5/6">
-                                <label for="last-name" class="ml-1 text-nowrap text-xs md:text-base font-semibold w-full shrink-0">
-                                    Last name
-                                </label>
-                                <input name="lastName" type="text" id="last-name" class="mt-4 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                            </div>
-                            <div class="flex-1 basis-1/6 ml-4">
-                                <label for="suffix" class="ml-1 text-nowrap text-xs md:text-base font-semibold w-full shrink-0">
-                                    Suffix
-                                </label>
-                                <input name="suffix" type="text" id="suffix" class="mt-4 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                            </div>
-                        </div>
-                    </div>
-
-                    <p class="ml-1 mt-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
-                        Birthdate
-                    </p>
-
-                    <div class="md:flex mt-4 mb-2 items-center">
-                        <div class="flex-0 mb-4 md:mb-8">
-                            <label for="birth-month" class="sr-only">Birth month</label>
-                            <select name="birth-month" id="birth-month" class="py-2 rounded-md text-sm md:text-base border-0 ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="November">November</option>
-                                <option value="December">December</option>
-                            </select>
-                        </div>
-                        <div class="flex-1 basis-1/6 md:ml-4 md:w-full w-32">
-                            <label for="birth-date" class="sr-only">Birth date</label>
-                            <input name="birthDate" type="number" placeholder="DD" id="birth-date" class="mb-4 md:mb-8 py-2 pr-2 w-full rounded-md border-0 ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                        </div>
-                        <div class="flex-1 basis-1/6 md:ml-4 md:w-full w-32">
-                            <label for="birth-year" class="sr-only">Birth </label>
-                            <input name="birthYear" type="number" placeholder="YYYY" id="birth-year" class="mb-4 md:mb-8 py-2 pr-2 w-full rounded-md border-0 ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                        </div>
-                        <div class="flex-1 basis-4/6 ml-4">
-                        </div>
-                    </div>
-
-                    <div class="md:flex">
-                        <div class="flex-1">
-                            <label for="province" class="ml-1 my-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
-                                Province
-                            </label>
-                            <input name="province" type="text" id="province" class="mt-4 mb-8 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                        </div>
-                        <div class="flex-1 md:ml-4">
-                            <label for="city" class="ml-1 my-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
-                                City
-                            </label>
-                            <input name="city" type="text" id="city" class="mt-4 mb-8 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                        </div>
-                        <div class="flex-1 md:ml-4">
-                            <label for="barangay" class="ml-1 my-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
-                                Barangay
-                            </label>
-                            <input name="barangay" type="text" id="barangay" class="mt-4 mb-8 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                        </div>
-                    </div>
-                    <label for="address" class="ml-1 my-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
-                        Address
-                    </label>
-                    <input name="address" type="text" id="address" class="mt-4 mb-8 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
-                </div>
-
-                <h3 class="text-md md:text-xl font-semibold mt-8 mb-2 ml-1">
-                    Account information
-                </h3>
-                <p class="text-xs md:text-md font-medium text-neutral-600 mt-2 mb-8 ml-1">
-                    This information will be used to access your account and for us to contact you.
-                </p>
 
                 <label for="username" class="ml-1 my-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
                     Username
@@ -162,5 +56,8 @@
             </div>
         </form>
     </div>
+
+    <script src="../scripts/jquery/jquery-3.7.1.min.js"></script>
+    <script src="register.js"></script>
 </body>
 </html>
