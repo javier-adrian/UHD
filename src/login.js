@@ -7,8 +7,9 @@ var formatBlock = function () {
             '</svg>' +
             '<span class="align-middle md:text-xl text-stone-900">Loading</span>',
         css: {
-            border: '1px solid #1c1917',
-            borderRadius: "5px"
+            border: '0px solid #1c1917',
+            borderRadius: "5px",
+            boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)"
         }
     };
 }
