@@ -13,7 +13,7 @@ class LoginStudent
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = 'SELECT username from users where username = ?';
+            $query = 'SELECT username from user where username = ?';
 
             if ($stmt = $conn->prepare($query))
             {
@@ -51,7 +51,7 @@ class LoginStudent
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = 'SELECT password from users where username = ?';
+            $query = 'SELECT password from user where username = ?';
 
             if ($stmt = $conn->prepare($query))
             {
