@@ -6,50 +6,50 @@
     <title>Log in | UHD</title>
     <link rel="stylesheet" href="./output.css">
 </head>
-<body class="bg-neutral-200 font-inter">
+<body class="bg-white font-inter">
     <div class="my-[75px] flex justify-center">
-        <h1 class="text-2xl md:text-4xl font-medium">
-            <span class="font-black text-rose-950">Yet Another</span>
-            <span class="font-black text-red-400">Money</span>ealth
-            <span class="font-black text-rose-950">Manager</span>eclaration
+        <h1 class="xs:text-xl sm:text-2xl md:text-4xl font-medium">
+            <span class="font-bold text-stone-900">Yet Another</span>
+            <span class="font-bold text-red-500">Money</span>
+            <span class="font-bold text-blue-500">Manager</span>
         </h1>
     </div>
     <div id="login">
         <form id="frmLogin" class="m-[50px] flex justify-center" action="#" method="POST">
-            <div class="p-8 border-2 border-rose-950 rounded-2xl bg-white">
+            <div class="p-8 border-0 border-red-500 rounded-2xl bg-white">
                 <div id="admin-msg"></div>
-                <label for="username" class="mb-4 basis-full text-xs md:text-base font-bold w-full shrink-0">
+                <label for="username" class="text-stone-900 mb-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
                     Username
                 </label>
 
-                <input type="text" name="username" id="username" class="my-4 border-0 py-2 px-2 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+                    <input type="text" name="username" id="username" class="py-2 px-2 mb-8 border-0 border-b-2 border-stone-900 w-full focus:outline-none focus:ring-0 focus:border-red-500">
 
                 <div class="flex">
-                    <label for="password" class="mb-4 text-xs md:text-base font-bold flex-1 basis-3/6">
+                    <label for="password" class="text-stone-900 mb-4 text-xs md:text-base font-semibold flex-1 basis-3/6">
                         Password
                     </label>
 
-                    <a href="#" onclick="return false" class="mb-4 text-xs md:text-base font-medium text-right text-rose-950 flex-1 basis-3/6">
+                    <a href="#" onclick="return false" class="mb-4 text-xs md:text-base font-medium text-right text-red-500 hover:text-blue-500 flex-1 basis-3/6">
                         Forgot password?
                     </a>
                 </div>
 
-                <input type="password" name="password" id="password" class="py-2 px-2 mb-8 border-0 w-full rounded-md ring-1 ring-inset ring-rose-950 focus:ring-rose-950 focus:ring-inset">
+                <input type="password" name="password" id="password" class="py-2 px-2 mb-8 border-0 border-b-2 border-stone-900 w-full focus:outline-none focus:ring-0 focus:border-red-500">
                 <input type="hidden" name="action" value="isLogin">
 
-                <button type="submit" class="py-2 text-sm md:text-lg text-white font-bold w-full rounded-md bg-rose-950">Log in</button>
+                <button type="submit" class="py-2 text-sm md:text-lg text-white font-bold w-full rounded-md bg-red-500 hover:bg-blue-500">Log in</button>
 
                 <div class="mt-8 flex flex-wrap justify-center">
                     <div class="mr-[120px] md:mr-[0px] mb-8 flex-1 flex flex-nowrap gap-1 items-center">
-                        <input id="remember" type="checkbox" class="rounded border-rose-950 text-rose-950 focus:ring-0">
+                        <input id="remember" type="checkbox" class="rounded border-red-500 text-red-500 focus:ring-0">
 
-                        <label for="remember" class="ml-1 text-xs md:text-base text-nowrap font-medium leading-6">
+                        <label for="remember" class="text-stone-900 ml-1 text-xs md:text-base text-nowrap font-medium leading-6">
                             Remember me
                         </label>
                     </div>
 
-                    <p class="sm:mx-[10px] md:mx-[0px] md:ml-[50px] text-xs md:text-base text-center md:text-right font-medium text-nowrap flex-1">
-                        New to UHD? <a class="text-rose-950" href="register/index.html">Create an account</a>
+                    <p class="text-stone-900 sm:mx-[10px] md:mx-[0px] md:ml-[50px] text-xs md:text-base text-center md:text-right font-medium text-nowrap flex-1">
+                        New to UHD? <a class="text-red-500 hover:text-blue-500" href="register/index.html">Create an account</a>
                     </p>
                 </div>
             </div>
