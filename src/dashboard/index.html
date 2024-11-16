@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../output.css">
+        <title>Dashboard | UHD</title>
+    </head>
+    <body class="h-full">
+        <div class="min-h-full" id="full">
+            <nav class="bg-white border-2 border-b-rose-950">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <!-- Logo -->
+                        <h1 class="font-black text-rose-950 text-3xl">UHD</h1>
+                        <!-- Page title -->
+                        <div class="ml-4 md:ml-10 flex items-baseline">
+                            <h1 class="px-3 py-2 md:text-xl font-medium text-black">Dashboard</h1>
+                        </div>
+                    </div>
+                    <!-- Profile dropdown -->
+                    <div class="flex">
+                        <div class="ml-4 flex items-center md:ml-6 relative">
+                            <button type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-rose-950 focus:ring-offset-2 focus:ring-offset-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                <img class="h-8 w-8 rounded-full" src="462542049_1271141780752936_6753378635683005820_n.jpg" alt="">
+                            </button>
+                        </div>
+                        <div class="ml-4 mr-4 flex justify-end md:ml-6 md:mr-6 relative">
+                            <button onclick="logout()" class="rounded-full bg-white relative flex max-w-xs items-center text-sm">
+                                <svg class="h-4 w-4 text-rose-950"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />  <polyline points="16 17 21 12 16 7" />  <line x1="21" y1="12" x2="9" y2="12" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <script src="../scripts/jquery/jquery-3.7.1.min.js"></script>
+            <script src="../scripts/jquery/jquery.BlockUI.js"></script>
+            <script src="index.js"></script>
+
+            <main>
+                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                    <button type="button" onclick="showDeclareForm()" class="px-4 py-2 text-white font-semibold rounded-md justify-center bg-rose-950">Declare</button>
+            </main>
+        </div>
+    </body>
+</html>
