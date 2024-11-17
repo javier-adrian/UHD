@@ -2,27 +2,50 @@ var declareForm = function () {
     return {
         message:
             "<form id='frmDeclare' class='p-4' action='#' method='POST'>" +
-                "<div class='flex gap-4 justify-center'>" +
-                    "<div class='flex flex-wrap justify-end mt-5'>" +
-                        "<label for='temp' class='mt-2 font-semibold content-center'>Temperature</label>" +
-                        "<label for='diagnosed' class='mt-6 font-semibold content-center'>Diagnosed</label>" +
-                        "<label for='vaccinated' class='mt-4 font-semibold content-center'>Vaccinated</label>" +
-                    "</div>" +
-                    "<div class='flex flex-wrap justify-start mt-5 '>" +
-                        "<input name='temp' id='temp' type='number' class='rounded-md w-32'>" +
-                        "<div class='basis-full flex justify-start'><input name='diagnosed' id='diagnosed' type='checkbox' class='rounded-sm mt-4 h-6 w-6'></div>" +
-                        "<input name='vaccinated' id='vaccinated' type='checkbox' class='rounded-sm mt-4 h-6 w-6'>" +
-                    "</div>" +
-                "</div>" +
-                "<div class='flex justify-end gap-4 mt-10'>" +
-                    "<button type='button' onclick='hideDeclareForm()' class='py-2 px-4 rounded-md font-semibold text-sm bg-white text-black ring-1 ring-inset ring-gray-300 shadow-sm'>Cancel</button>" +
-                    "<button type='submit' class='py-2 px-4 rounded-md font-semibold text-sm bg-rose-950 text-white'>Declare</button>" +
+                '<div class="flex justify-start">' +
+                    '<button onclick="hideDeclareForm()" class="rounded-full bg-white relative flex max-w-xs items-center text-sm text-gray-400">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">' +
+                            '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />' +
+                        '</svg>' +
+                    '</button>' +
+                '</div>' +
+                '<div class="inline-flex rounded-md shadow-sm" role="group">' +
+                    '<input type="radio" id="income" name="type" value="income" class="hidden peer/income"/>' +
+                    '<label for="income" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-l border-t border-b border-gray-200 rounded-s-lg peer-checked/income:bg-blue-500 peer-checked/income:text-white">' +
+                        'Income' +
+                    '</label>' +
+                    '<input type="radio" id="expense" name="type" value="expense" class="hidden peer/expense"/>' +
+                    '<label for="expense" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-r border-t border-b border-gray-200 rounded-e-lg peer-checked/expense:bg-red-500 peer-checked/expense:text-white">' +
+                        'Expense' +
+                    '</label>' +
+                '</div>' +
+
+                // "<div class='flex gap-4 justify-center'>" +
+                //     "<div class='flex flex-wrap justify-end mt-5'>" +
+                //         "<label for='temp' class='mt-2 font-semibold content-center'>Temperature</label>" +
+                //         "<label for='diagnosed' class='mt-6 font-semibold content-center'>Diagnosed</label>" +
+                //         "<label for='vaccinated' class='mt-4 font-semibold content-center'>Vaccinated</label>" +
+                //     "</div>" +
+                //     "<div class='flex flex-wrap justify-start mt-5 '>" +
+                //         "<input name='temp' id='temp' type='number' class='rounded-md w-28'>" +
+                //         "<div class='basis-full flex justify-start'><input name='diagnosed' id='diagnosed' type='checkbox' class='rounded-sm mt-4 h-6 w-6'></div>" +
+                //         "<input name='vaccinated' id='vaccinated' type='checkbox' class='rounded-sm mt-4 h-6 w-6'>" +
+                //     "</div>" +
+                // "</div>" +
+                "<div class='flex justify-end gap-4 mt-8 mb-3 mr-3'>" +
+                    "<button type='submit' class='py-2 px-2 rounded-full font-semibold text-sm bg-white text-red-500'>" +
+                        '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">' +
+                            '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />' +
+                        '</svg>' +
+                    "</button>" +
                 "</div>" +
             "</form>",
         css: {
-            border: '2px solid #4c0519',
+            border: '0px solid #1c1917',
             width: '300px',
             borderRadius: "0.375rem",
+            boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+            cursor: "default"
         }
     }
 }
