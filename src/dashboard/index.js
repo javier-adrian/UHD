@@ -23,7 +23,7 @@ var declareForm = function () {
 
                 '<div class="flex flex-wrap justify-start mt-4">' +
                     '<label for="amount" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Amount</label>' +
-                    '<input type="number" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">' +
+                    '<input type="number" pattern="^\\d+(\\.|\\,)\\d{2}$" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">' +
                     '<label for="description" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Description</label>' +
                     '<input type="text" id="description" name="description" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">' +
                 '</div>' +
@@ -92,11 +92,22 @@ var showDeclareForm = function () {
         var date = new Date()
 
         var declareObj = $('#frmDeclare').serializeArray()
+        declareObj[1].value *= 100
         declareObj.push({
             name: 'timestamp',
             value: date.valueOf()/1000
         })
+
+        declareObj.push({
+            name: 'action',
+            value: 'isCreate'
+        })
+
         console.log(declareObj)
+
+        $.post('../scripts/php/statement.php', declareObj, function (data) {
+            console.log(data.msg)
+        }, 'json')
 
         $('#frmDeclare').unblock();
         hideDeclareForm()
