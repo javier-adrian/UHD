@@ -36,6 +36,36 @@ class Statement
             $conn->close();
         }
     }
+
+    public function delete($username, $statement)
+    {
+
+        error_reporting(E_ERROR);
+
+        $config = new Config();
+        $conn = $config->conn;
+
+        if ($conn->connect_error)
+            return $conn->connect_error;
+        else {
+            $query = 'DELETE FROM statement WHERE user = ? AND id = ?';
+
+            if ($stmt = $conn->prepare($query))
+            {
+                $stmt->bind_param('ii', $username, $statement);
+
+                if ($stmt->execute())
+                {
+                    echo "Deleted Successfully";
+                } else
+                    return $stmt->error;
+            } else
+                return $conn->error;
+
+            $conn->close();
+        }
+    }
+
     public function addStatement($user, $type, $amount, $time, $description)
     {
         error_reporting(E_ERROR);
@@ -170,6 +200,16 @@ if (isset($_REQUEST['action']))
         $response = $app->read($user);
 
         echo $response;
+    }
+    if ($_REQUEST['action'] == 'isDelete')
+    {
+        $user = $app->getUser($_SESSION['username']);
+        $id = $_REQUEST['id'];
+        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
+
+        $app->delete($user, $id);
+
+//        $response = $app->delete($user, $id);
     }
 } else
     echo 'ERROR: No direct access';

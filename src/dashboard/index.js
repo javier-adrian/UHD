@@ -91,7 +91,7 @@ var item = function(id, amount, description, type, timestamp) {
         color = "blue"
 
     return `
-    <li class="flex justify-between gap-x-6 py-5" data-id="` + id.toString() + `">
+    <li class="flex justify-between gap-x-6 py-5">
         <div class="flex min-w-0 gap-x-6">
             <div class="min-w-0 flex-auto pt-2 w-16 sm:w-32">
                 <p class="text-xl font-semibold text-` + color + `-500 text-right">` + (amount/100).toFixed(2) + `</p>
@@ -109,7 +109,7 @@ var item = function(id, amount, description, type, timestamp) {
                           d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
                 </svg>
             </button>
-            <button onclick="" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
+            <button onclick="deleteStatement(` + id.toString() + `)" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
                 <svg class="size-4 sm:size-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -181,6 +181,23 @@ var logout = function () {
             console.log("wtf")
         }
     });
+}
+
+var deleteStatement = function (statement) {
+    $.post(
+        '../scripts/php/statement.php',
+            {"action": "isDelete",
+            "id": statement},
+        function (data) {
+            console.log(data)
+            // for ([key, value] of Object.entries(data))
+            // {
+            //     $('#statements').append(item(value.id, value.amount, value.description, value.type, value.timestamp))
+            // }
+        // console.log(Object.entries(data))
+    }, 'json')
+
+    getStatements()
 }
 
 var getStatements = function () {
