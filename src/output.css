@@ -1636,6 +1636,10 @@ select {
     width: 8rem;
   }
 
+  .sm\:basis-0 {
+    flex-basis: 0px;
+  }
+
   .sm\:flex-col {
     flex-direction: column;
   }
@@ -1759,6 +1763,12 @@ select {
   .lg\:px-16 {
     padding-left: 4rem;
     padding-right: 4rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .\32xl\:basis-0 {
+    flex-basis: 0px;
   }
 }
 
