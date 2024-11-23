@@ -63,6 +63,49 @@ class Statement
         }
     }
 
+    public function read($user)
+    {
+        error_reporting(E_ERROR);
+
+        $config = new Config();
+        $conn = $config->conn;
+
+        if ($conn->connect_error)
+            return $conn->connect_error;
+        else {
+            $query = "SELECT id, amount, UNIX_TIMESTAMP(timestamp), description, type FROM statement WHERE user = ?";
+
+            if ($stmt = $conn->prepare($query))
+            {
+                $stmt->bind_param("i",  $user);
+
+                $statements = array();
+                $statement = array();
+
+                if ($stmt->execute())
+                {
+                    $stmt->bind_result($id, $amount, $timestamp, $description, $type);
+
+                    while ($stmt->fetch())
+                    {
+                        $statement["id"] = $id;
+                        $statement["amount"] = $amount;
+                        $statement["timestamp"] = $timestamp;
+                        $statement["description"] = $description;
+                        $statement["type"] = $type;
+                        $statements[strval($id)] = $statement;
+                    }
+
+                    $stmt->close();
+
+                    return json_encode($statements);
+                } else
+                    return $stmt->error;
+            } else
+                return $conn->error;
+        }
+    }
+
     public function add($user, $type, $amount, $time, $description)
     {
         $response = array();
@@ -82,6 +125,26 @@ class Statement
 
         return json_encode($response);
     }
+
+//    public function read($user)
+//    {
+//        $response = array();
+//
+//        $read = $this->readStatements($user);
+//
+//        if ($read) {
+//
+//            $response['isSuccess'] = true;
+//            $response['value'] = 1;
+//            $response['msg'] = "Successfully created";
+//        } else {
+//            $response['isSuccess'] = false;
+//            $response['value'] = 0;
+//            $response['msg'] = "tf";
+//        }
+//
+//        return json_encode($response);
+//    }
 }
 
 $app = new Statement();
@@ -100,5 +163,14 @@ if (isset($_REQUEST['action']))
 
         echo $response;
     }
+    if ($_REQUEST['action'] == 'isRead')
+    {
+        $user = $app->getUser($_SESSION['username']);
+
+        $response = $app->read($user);
+
+        echo $response;
+    }
 } else
     echo 'ERROR: No direct access';
+//    file_put_contents('php://stderr', print_r($_REQUEST['action'], TRUE));
