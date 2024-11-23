@@ -74,7 +74,18 @@ var spinner = function () {
 var showDeclareForm = function () {
     $('#full').block(declareForm());
 
+    // $("#frmDeclare").validate({
+    //     rules: {
+    //         type: "required",
+    //         amount: "required",
+    //     },
+    // });
+
+
     $('#frmDeclare').submit(function (e) {
+        // if (!($('#frmDeclare').valid())){
+        //     console.log("lkjsdkfj")
+        // }
         $('#frmDeclare').block(spinner());
         e.preventDefault()
 

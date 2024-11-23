@@ -30,8 +30,13 @@ var checkSession = function() {
 var handleFormEvents = function () {
     $.validate({
         form: '#frmLogin',
-        modules: 'security'
-        });
+        modules: 'security',
+        rules: {
+            username: "required",
+            password: "required",
+        }
+        }
+    );
 };
 
 var onLogin = function () {
