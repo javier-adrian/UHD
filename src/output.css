@@ -949,6 +949,16 @@ select {
   height: 3rem;
 }
 
+.size-2 {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.size-4 {
+  width: 1rem;
+  height: 1rem;
+}
+
 .h-16 {
   height: 4rem;
 }
@@ -1617,12 +1627,25 @@ select {
     display: flex;
   }
 
+  .sm\:size-6 {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .sm\:w-32 {
+    width: 8rem;
+  }
+
   .sm\:flex-col {
     flex-direction: column;
   }
 
   .sm\:items-end {
     align-items: flex-end;
+  }
+
+  .sm\:gap-8 {
+    gap: 2rem;
   }
 
   .sm\:px-6 {
