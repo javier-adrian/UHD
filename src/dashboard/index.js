@@ -101,7 +101,7 @@ var item = function(id, amount, description, type, timestamp) {
                 <p class="mt-1 truncate text-xs/5 text-gray-500">` + dateString + `</p>
             </div>
         </div>
-        <div class="ml-4 mr-4 flex flex-wrap gap-4 sm:gap-8 justify-end md:ml-6 md:mr-6 relative">
+        <div class="ml-4 flex flex-wrap gap-4 sm:gap-8 justify-end md:ml-6 md:mr-6 relative">
             <button onclick="" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
                 <svg class="size-4 sm:size-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
