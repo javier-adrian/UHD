@@ -84,8 +84,8 @@ var item = function(id, amount, description, type, timestamp) {
         MM = "0" + MM
 
     var dateString = (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0]) + "/" + yy + " " + HH + ":" + MM
-    var color = "black"
 
+    var color = "black"
     if (type === "expense")
         color = "red"
     if (type === "income")
@@ -175,7 +175,9 @@ var hideDeclareForm = function () {
 var logout = function () {
     $.get("../scripts/php/logout.php", function (data) {
         var sessiondata = $.parseJSON(data);
+
         console.log(sessiondata)
+
         if(sessiondata.isSuccess) {
             $(location).attr("href", "../index.html");
         } else {
@@ -211,7 +213,6 @@ var updateStatement = function (id, amount, description, type) {
     //     },
     // });
 
-
     $("#frmDeclare").submit(function (e) {
         // if (!($('#frmDeclare').valid())){
         //     console.log("lkjsdkfj")
@@ -219,14 +220,15 @@ var updateStatement = function (id, amount, description, type) {
         $("#frmDeclare").block(spinner());
         e.preventDefault()
 
-        var date = new Date()
-
         var declareObj = $('#frmDeclare').serializeArray()
+
         declareObj[1].value *= 100
+
         declareObj.push({
             name: "id",
             value: id
         })
+
         declareObj.push({
             name: "action",
             value: "isUpdate"
@@ -237,8 +239,8 @@ var updateStatement = function (id, amount, description, type) {
         $.post("../scripts/php/statement.php", declareObj, function (data) {
             console.log(data.msg)
         }, "json")
-        getStatements()
 
+        getStatements()
         $("#frmDeclare").unblock();
         hideDeclareForm()
     })
@@ -247,10 +249,11 @@ var updateStatement = function (id, amount, description, type) {
 var getStatements = function () {
     $.get("../scripts/php/statement.php", {"action": "isRead"}, function (data) {
         $("#statements").html("")
-        for ([key, value] of Object.entries(data))
-        {
+
+        for ([key, value] of Object.entries(data)) {
             $("#statements").append(item(value.id, value.amount, value.description, value.type, value.timestamp))
         }
+
         console.log(Object.entries(data))
     }, "json")
 

@@ -16,6 +16,7 @@ var formatBlock = function () {
 var checkSession = function () {
     $.get("../scripts/php/checkSession.php", function(data) {
         var sessiondata = $.parseJSON(data);
+
         if(sessiondata.isSuccess) {
             console.log("active session")
             $(location).attr("href", "../dashboard/index.html");
@@ -34,6 +35,7 @@ $.validate({
 $("#frmRegister").submit(function(e) {
     e.preventDefault();
     $("#signup").block(formatBlock());
+
     var registerObj = $("#frmRegister").serializeArray();
 
     $.post("../scripts/php/Register.php", registerObj, function(data) {
@@ -60,5 +62,6 @@ $("#frmRegister").submit(function(e) {
         }
 
     }, "json");
+    
     $("#signup").unblock();
 });
