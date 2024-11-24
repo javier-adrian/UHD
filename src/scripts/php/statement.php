@@ -66,7 +66,7 @@ class Statement
         }
     }
 
-    public function update($user, $statement, $amount, $type, $description)
+    public function update($user, $statement, $amount, $type, $description, $time)
     {
 //        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
@@ -78,11 +78,11 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = 'UPDATE statement SET amount = ?, type = ?, description = ? WHERE id = ? AND user = ?';
+            $query = 'UPDATE statement SET amount = ?, type = ?, description = ?, timestamp = from_unixtime(?) WHERE id = ? AND user = ?';
 
             if ($stmt = $conn->prepare($query))
             {
-                $stmt->bind_param('issii', $amount, $type, $description, $statement, $user);
+                $stmt->bind_param('issiii', $amount, $type, $description, $statement, $user, $time);
 
                 if ($stmt->execute())
                 {
@@ -217,7 +217,7 @@ if (isset($_REQUEST['action']))
         $type = $_REQUEST['type'];
         $amount = $_REQUEST['amount'];
         $description = $_REQUEST['description'];
-        $time = $_REQUEST['timestamp'];
+        $time = $_REQUEST['datetime'];
 
         $response = $app->add($user, $type, $amount, $time, $description);
 
@@ -246,6 +246,7 @@ if (isset($_REQUEST['action']))
         $amount = $_REQUEST['amount'];
         $type = $_REQUEST['type'];
         $description = $_REQUEST['description'];
+        $time = $_REQUEST['datetime'];
 //        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
         $app->update($user, $id, $amount, $type, $description);

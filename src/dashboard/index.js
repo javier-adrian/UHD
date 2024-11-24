@@ -1,5 +1,17 @@
-var declareForm = function (type = "", amount, description) {
+var declareForm = function (type = "", amount, description, datetime) {
     svgCode = (type) ? "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" : "M12 4.5v15m7.5-7.5h-15"
+
+    var dateObject = new Date(datetime * 1000);
+
+    // Get the local date and time in the required format
+    var year = dateObject.getFullYear();
+    var month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    var day = String(dateObject.getDate()).padStart(2, '0');
+    var hours = String(dateObject.getHours()).padStart(2, '0');
+    var minutes = String(dateObject.getMinutes()).padStart(2, '0');
+
+    // Format the date to YYYY-MM-DDTHH:MM
+    var formattedDate = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
     return {
         message:
             `<form id="frmDeclare" class="p-4" action="#" method="POST">
@@ -23,6 +35,8 @@ var declareForm = function (type = "", amount, description) {
                 </div>
 
                 <div class="flex flex-wrap justify-start mt-4">
+                    <label for="datetime" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Date and Time</label>
+                    <input value="` + ((datetime) ? formattedDate : "") + `" id="datetime" name="datetime" type="datetime-local" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500" placeholder="MM/YY/DDDD">
                     <label for="amount" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Amount</label>
                     <input value="` + ((amount) ? (amount / 100).toString() : "") + `" type="number" pattern="^\\d+(\\.|\\,)\\d{2}$" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
                     <label for="description" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Description</label>
@@ -72,7 +86,7 @@ var spinner = function () {
     };
 }
 
-var item = function(id, amount, description, type, timestamp) {
+var item = function(id, amount, description, type, timestamp, datetime) {
     var date = new Date(timestamp*1000)
     var yy = date.getFullYear().toString();
     var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
@@ -104,7 +118,7 @@ var item = function(id, amount, description, type, timestamp) {
             </div>
         </div>
         <div class="ml-4 flex flex-wrap gap-4 sm:gap-8 justify-end md:ml-6 md:mr-6 relative">
-            <button onclick="updateStatement(` + id.toString() + ", " + amount.toString() + ", '" + description + "', '" + type + `' )" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
+            <button onclick="updateStatement(` + id.toString() + ", " + amount.toString() + ", '" + description + "', '" + type + "', " + timestamp + ` )" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
                 <svg class="size-4 sm:size-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -141,12 +155,14 @@ var showDeclareForm = function () {
         $("#frmDeclare").block(spinner());
         e.preventDefault()
 
-        var date = new Date()
+        var date = new Date($("#datetime").val())
+
+        // console.log(date)
 
         var declareObj = $("#frmDeclare").serializeArray()
-        declareObj[1].value *= 100
+        declareObj[2].value *= 100
         declareObj.push({
-            name: "timestamp",
+            name: "datetime",
             value: date.valueOf() / 1000
         })
 
@@ -202,8 +218,8 @@ var deleteStatement = function (statement) {
     getStatements()
 }
 
-var updateStatement = function (id, amount, description, type) {
-    $("#full").block(declareForm(type, amount, description));
+var updateStatement = function (id, amount, description, type, datetime) {
+    $("#full").block(declareForm(type, amount, description, datetime));
 
     // $("#frmDeclare").validate({
     //     rules: {
@@ -221,7 +237,12 @@ var updateStatement = function (id, amount, description, type) {
 
         var declareObj = $('#frmDeclare').serializeArray()
 
-        declareObj[1].value *= 100
+        declareObj.push({
+            name: "datetime",
+            value: date.valueOf() / 1000
+        })
+
+        declareObj[2].value *= 100
 
         declareObj.push({
             name: "id",
