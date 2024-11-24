@@ -66,6 +66,36 @@ class Statement
         }
     }
 
+    public function update($user, $statement, $amount, $type, $description)
+    {
+//        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
+
+        error_reporting(E_ERROR);
+
+        $config = new Config();
+        $conn = $config->conn;
+
+        if ($conn->connect_error)
+            return $conn->connect_error;
+        else {
+            $query = 'UPDATE statement SET amount = ?, type = ?, description = ? WHERE id = ? AND user = ?';
+
+            if ($stmt = $conn->prepare($query))
+            {
+                $stmt->bind_param('issii', $amount, $type, $description, $statement, $user);
+
+                if ($stmt->execute())
+                {
+                    echo "Updated Successfully";
+                } else
+                    return $stmt->error;
+            } else
+                return $conn->error;
+
+            $conn->close();
+        }
+    }
+
     public function addStatement($user, $type, $amount, $time, $description)
     {
         error_reporting(E_ERROR);
@@ -208,8 +238,17 @@ if (isset($_REQUEST['action']))
         file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
         $app->delete($user, $id);
+    }
+    if ($_REQUEST['action'] == 'isUpdate')
+    {
+        $user = $app->getUser($_SESSION['username']);
+        $id = $_REQUEST['id'];
+        $amount = $_REQUEST['amount'];
+        $type = $_REQUEST['type'];
+        $description = $_REQUEST['description'];
+//        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
-//        $response = $app->delete($user, $id);
+        $app->update($user, $id, $amount, $type, $description);
     }
 } else
     echo 'ERROR: No direct access';
