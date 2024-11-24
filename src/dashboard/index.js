@@ -47,6 +47,7 @@ var declareForm = function (type = "", amount, description) {
         },
         overlayCSS: {
             opacity: "0.1",
+            cursor: "default"
         }
     }
 }
