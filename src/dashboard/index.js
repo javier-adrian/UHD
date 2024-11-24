@@ -2,7 +2,7 @@ var declareForm = function (type = "", amount, description) {
     svgCode = (type) ? "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" : "M12 4.5v15m7.5-7.5h-15"
     return {
         message:
-            `<form id='frmDeclare' class='p-4' action='#' method='POST'>
+            `<form id="frmDeclare" class="p-4" action="#" method="POST">
                 <div class="flex justify-start">
                     <button type="button" onclick="hideDeclareForm()" class="rounded-full bg-white relative flex max-w-xs items-center text-sm text-gray-400">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -29,8 +29,8 @@ var declareForm = function (type = "", amount, description) {
                     <input value="` + ((description) ? description : "") + `" type="text" id="description" name="description" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
                 </div>
 
-                <div class='flex justify-end gap-4 mt-8 mb-3 mr-3'>
-                    <button type='submit' class='py-2 px-2 rounded-full font-semibold text-sm bg-white text-` + ((type) ? "black" : "red") + `-500'>
+                <div class="flex justify-end gap-4 mt-8 mb-3 mr-3">
+                    <button type="submit" class="py-2 px-2 rounded-full font-semibold text-sm bg-white text-` + ((type) ? "black" : "red") + `-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="` + svgCode + `" />
                         </svg>
@@ -55,7 +55,7 @@ var spinner = function () {
     return {
         message:
             `<div class="py bg-white rounded-md">
-                <svg aria-hidden=\"true\" role=\"status\" class=\"inline w-8 h-8 md:w-6 md:h-6 my-4 me-3 text-gray-200 fill-red-500 animate-spin dark:text-gray-600\" viewBox=\"0 0 100 101\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">
+                <svg aria-hidden="true" role="status" class="inline w-8 h-8 md:w-6 md:h-6 my-4 me-3 text-gray-200 fill-red-500 animate-spin dark:text-gray-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
                 </svg>
@@ -124,7 +124,7 @@ var item = function(id, amount, description, type, timestamp) {
 
 
 var showDeclareForm = function () {
-    $('#full').block(declareForm());
+    $("#full").block(declareForm());
 
     // $("#frmDeclare").validate({
     //     rules: {
@@ -134,33 +134,33 @@ var showDeclareForm = function () {
     // });
 
 
-    $('#frmDeclare').submit(function (e) {
+    $("#frmDeclare").submit(function (e) {
         // if (!($('#frmDeclare').valid())){
         //     console.log("lkjsdkfj")
         // }
-        $('#frmDeclare').block(spinner());
+        $("#frmDeclare").block(spinner());
         e.preventDefault()
 
         var date = new Date()
 
-        var declareObj = $('#frmDeclare').serializeArray()
+        var declareObj = $("#frmDeclare").serializeArray()
         declareObj[1].value *= 100
         declareObj.push({
-            name: 'timestamp',
+            name: "timestamp",
             value: date.valueOf() / 1000
         })
 
         declareObj.push({
-            name: 'action',
-            value: 'isCreate'
+            name: "action",
+            value: "isCreate"
         })
 
         console.log(declareObj)
 
-        $.post('../scripts/php/statement.php', declareObj, function (data) {
+        $.post("../scripts/php/statement.php", declareObj, function (data) {
             console.log(data.msg)
             getStatements()
-        }, 'json')
+        }, "json")
 
         $('#frmDeclare').unblock();
         hideDeclareForm()
@@ -173,11 +173,11 @@ var hideDeclareForm = function () {
 }
 
 var logout = function () {
-    $.get('../scripts/php/logout.php', function (data) {
+    $.get("../scripts/php/logout.php", function (data) {
         var sessiondata = $.parseJSON(data);
         console.log(sessiondata)
         if(sessiondata.isSuccess) {
-            $(location).attr('href','../index.html');
+            $(location).attr("href", "../index.html");
         } else {
             console.log("wtf")
         }
@@ -186,7 +186,7 @@ var logout = function () {
 
 var deleteStatement = function (statement) {
     $.post(
-        '../scripts/php/statement.php',
+        "../scripts/php/statement.php",
             {"action": "isDelete",
             "id": statement},
         function (data) {
@@ -196,13 +196,13 @@ var deleteStatement = function (statement) {
             //     $('#statements').append(item(value.id, value.amount, value.description, value.type, value.timestamp))
             // }
         // console.log(Object.entries(data))
-    }, 'json')
+    }, "json")
 
     getStatements()
 }
 
 var updateStatement = function (id, amount, description, type) {
-    $('#full').block(declareForm(type, amount, description));
+    $("#full").block(declareForm(type, amount, description));
 
     // $("#frmDeclare").validate({
     //     rules: {
@@ -212,11 +212,11 @@ var updateStatement = function (id, amount, description, type) {
     // });
 
 
-    $('#frmDeclare').submit(function (e) {
+    $("#frmDeclare").submit(function (e) {
         // if (!($('#frmDeclare').valid())){
         //     console.log("lkjsdkfj")
         // }
-        $('#frmDeclare').block(spinner());
+        $("#frmDeclare").block(spinner());
         e.preventDefault()
 
         var date = new Date()
@@ -224,35 +224,35 @@ var updateStatement = function (id, amount, description, type) {
         var declareObj = $('#frmDeclare').serializeArray()
         declareObj[1].value *= 100
         declareObj.push({
-            name: 'id',
+            name: "id",
             value: id
         })
         declareObj.push({
-            name: 'action',
-            value: 'isUpdate'
+            name: "action",
+            value: "isUpdate"
         })
 
         console.log(declareObj)
 
-        $.post('../scripts/php/statement.php', declareObj, function (data) {
+        $.post("../scripts/php/statement.php", declareObj, function (data) {
             console.log(data.msg)
-        }, 'json')
+        }, "json")
         getStatements()
 
-        $('#frmDeclare').unblock();
+        $("#frmDeclare").unblock();
         hideDeclareForm()
     })
 }
 
 var getStatements = function () {
-    $.get('../scripts/php/statement.php', {"action": "isRead"}, function (data) {
+    $.get("../scripts/php/statement.php", {"action": "isRead"}, function (data) {
         $("#statements").html("")
         for ([key, value] of Object.entries(data))
         {
-            $('#statements').append(item(value.id, value.amount, value.description, value.type, value.timestamp))
+            $("#statements").append(item(value.id, value.amount, value.description, value.type, value.timestamp))
         }
         console.log(Object.entries(data))
-    }, 'json')
+    }, "json")
 
 }
 

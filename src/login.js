@@ -7,7 +7,7 @@ var formatBlock = function () {
             </svg>
             <span class="align-middle md:text-xl text-stone-900">Loading</span>`,
         css: {
-            border: '0px solid #1c1917',
+            border: "0px solid #1c1917",
             borderRadius: "5px",
             boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)"
         }
@@ -15,11 +15,11 @@ var formatBlock = function () {
 }
 
 var checkSession = function() {
-    $.get('scripts/php/checkSession.php', function(data) {
+    $.get("scripts/php/checkSession.php", function(data) {
         var sessiondata = $.parseJSON(data);
         if(sessiondata.isSuccess) {
             console.log("active session")
-            $(location).attr('href','dashboard/index.html');
+            $(location).attr("href", "dashboard/index.html");
         } else {
             console.log("inactive session")
             // loadFirst();
@@ -29,8 +29,8 @@ var checkSession = function() {
 
 var handleFormEvents = function () {
     $.validate({
-        form: '#frmLogin',
-        modules: 'security',
+        form: "#frmLogin",
+        modules: "security",
         rules: {
             username: "required",
             password: "required",
@@ -45,7 +45,7 @@ var onLogin = function () {
         $('#login').block(formatBlock());
         var loginObj = $('#frmLogin').serializeArray();
 
-        $.post('scripts/php/loginStudent.php', loginObj, function(data) {
+        $.post("scripts/php/loginStudent.php", loginObj, function(data) {
             if (!data.isSuccess) {
                 var msg = data.msg;
                 var alert = `
@@ -67,8 +67,8 @@ var onLogin = function () {
                 checkSession();
             }
 
-        }, 'json');
-        $('#login').unblock();
+        }, "json");
+        $("#login").unblock();
     });
 };
 

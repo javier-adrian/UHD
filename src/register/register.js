@@ -7,18 +7,18 @@ var formatBlock = function () {
             </svg>
             <span class="align-middle md:text-xl text-stone-900">Loading</span>`,
         css: {
-            border: '0px solid #1c1917',
+            border: "0px solid #1c1917",
             borderRadius: "5px",
             boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)"
         }
     };
 }
 var checkSession = function () {
-    $.get('../scripts/php/checkSession.php', function(data) {
+    $.get("../scripts/php/checkSession.php", function(data) {
         var sessiondata = $.parseJSON(data);
         if(sessiondata.isSuccess) {
             console.log("active session")
-            $(location).attr('href','../dashboard/index.html');
+            $(location).attr("href", "../dashboard/index.html");
         } else {
             console.log("inactive session")
             // loadFirst();
@@ -27,16 +27,16 @@ var checkSession = function () {
 }
 
 $.validate({
-    form: '#frmLogin',
-    modules: 'security'
+    form: "#frmLogin",
+    modules: "security"
 });
 
 $("#frmRegister").submit(function(e) {
     e.preventDefault();
-    $('#signup').block(formatBlock());
-    var registerObj = $('#frmRegister').serializeArray();
+    $("#signup").block(formatBlock());
+    var registerObj = $("#frmRegister").serializeArray();
 
-    $.post('../scripts/php/Register.php', registerObj, function(data) {
+    $.post("../scripts/php/Register.php", registerObj, function(data) {
         console.log(data.msg)
         if (!data.isSuccess) {
             var msg = data.msg;
@@ -59,6 +59,6 @@ $("#frmRegister").submit(function(e) {
             checkSession();
         }
 
-    }, 'json');
-    $('#signup').unblock();
+    }, "json");
+    $("#signup").unblock();
 });
