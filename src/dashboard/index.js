@@ -3,14 +3,12 @@ var declareForm = function (type = "", amount, description, datetime) {
 
     var dateObject = new Date(datetime * 1000);
 
-    // Get the local date and time in the required format
     var year = dateObject.getFullYear();
     var month = String(dateObject.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
     var day = String(dateObject.getDate()).padStart(2, '0');
     var hours = String(dateObject.getHours()).padStart(2, '0');
     var minutes = String(dateObject.getMinutes()).padStart(2, '0');
 
-    // Format the date to YYYY-MM-DDTHH:MM
     var formattedDate = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
     return {
         message:
@@ -156,8 +154,6 @@ var showDeclareForm = function () {
         e.preventDefault()
 
         var date = new Date($("#datetime").val())
-
-        // console.log(date)
 
         var declareObj = $("#frmDeclare").serializeArray()
         declareObj[2].value *= 100
