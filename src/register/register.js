@@ -13,6 +13,7 @@ var formatBlock = function () {
         }
     };
 }
+
 var checkSession = function () {
     $.get("../scripts/php/checkSession.php", function(data) {
         var sessiondata = $.parseJSON(data);
@@ -62,6 +63,6 @@ $("#frmRegister").submit(function(e) {
         }
 
     }, "json");
-    
+
     $("#signup").unblock();
 });

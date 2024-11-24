@@ -122,7 +122,6 @@ var item = function(id, amount, description, type, timestamp) {
     `
 }
 
-
 var showDeclareForm = function () {
     $("#full").block(declareForm());
 
@@ -166,7 +165,6 @@ var showDeclareForm = function () {
         hideDeclareForm()
     })
 }
-
 
 var hideDeclareForm = function () {
     $('#full').unblock();
