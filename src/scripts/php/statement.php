@@ -66,9 +66,8 @@ class Statement
         }
     }
 
-    public function update($user, $statement, $amount, $type, $description, $time)
+    public function update($user, $statement, $amount, $type, $description, $time, $currency)
     {
-//        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
         error_reporting(E_ERROR);
 
@@ -78,16 +77,19 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = 'UPDATE statement SET amount = ?, type = ?, description = ?, timestamp = from_unixtime(?) WHERE id = ? AND user = ?';
+            $query = 'UPDATE statement SET amount = ?, type = ?, description = ?, timestamp = from_unixtime(?), currency = ? WHERE id = ? AND user = ?';
 
             if ($stmt = $conn->prepare($query))
             {
-                $stmt->bind_param('issiii', $amount, $type, $description, $statement, $user, $time);
+                $stmt->bind_param('issisii', $amount, $type, $description, $time, $currency, $statement, $user);
 
                 if ($stmt->execute())
                 {
+                    file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
                     echo "Updated Successfully";
                 } else
+                    file_put_contents('php://stderr', print_r("lladslkfjsad", TRUE));
+                    echo "Update unsuccessful";
                     return $stmt->error;
             } else
                 return $conn->error;
@@ -96,7 +98,7 @@ class Statement
         }
     }
 
-    public function addStatement($user, $type, $amount, $time, $description)
+    public function addStatement($user, $type, $amount, $time, $description, $currency)
     {
         error_reporting(E_ERROR);
 
@@ -106,11 +108,11 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = "INSERT INTO statement (user, amount, timestamp, description, type) VALUES (?, ?, from_unixtime(?), ?, ?)";
+            $query = "INSERT INTO statement (user, amount, timestamp, description, type, currency) VALUES (?, ?, from_unixtime(?), ?, ?, ?)";
 
             if ($stmt = $conn->prepare($query))
             {
-                $stmt->bind_param("iidss",  $user,  $amount, $time, $description, $type);
+                $stmt->bind_param("iidsss",  $user,  $amount, $time, $description, $type, $currency);
 
                 if ($stmt->execute())
                 {
@@ -133,7 +135,7 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = "SELECT id, amount, UNIX_TIMESTAMP(timestamp), description, type FROM statement WHERE user = ?";
+            $query = "SELECT id, amount, UNIX_TIMESTAMP(timestamp), description, type, currency FROM statement WHERE user = ?";
 
             if ($stmt = $conn->prepare($query))
             {
@@ -144,7 +146,7 @@ class Statement
 
                 if ($stmt->execute())
                 {
-                    $stmt->bind_result($id, $amount, $timestamp, $description, $type);
+                    $stmt->bind_result($id, $amount, $timestamp, $description, $type, $currency);
 
                     while ($stmt->fetch())
                     {
@@ -153,6 +155,7 @@ class Statement
                         $statement["timestamp"] = $timestamp;
                         $statement["description"] = $description;
                         $statement["type"] = $type;
+                        $statement["currency"] = $currency;
                         $statements[strval($id)] = $statement;
                     }
 
@@ -166,11 +169,11 @@ class Statement
         }
     }
 
-    public function add($user, $type, $amount, $time, $description)
+    public function add($user, $type, $amount, $time, $description, $currency)
     {
         $response = array();
 
-        $add = $this->addStatement($user, $type, $amount, $time, $description);
+        $add = $this->addStatement($user, $type, $amount, $time, $description, $currency);
 
         if ($add == 'SUCCESSFUL') {
 
@@ -218,8 +221,9 @@ if (isset($_REQUEST['action']))
         $amount = $_REQUEST['amount'];
         $description = $_REQUEST['description'];
         $time = $_REQUEST['datetime'];
+        $currency = $_REQUEST['currency'];
 
-        $response = $app->add($user, $type, $amount, $time, $description);
+        $response = $app->add($user, $type, $amount, $time, $description, $currency);
 
         echo $response;
     }
@@ -247,9 +251,10 @@ if (isset($_REQUEST['action']))
         $type = $_REQUEST['type'];
         $description = $_REQUEST['description'];
         $time = $_REQUEST['datetime'];
+        $currency = $_REQUEST['currency'];
 //        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
-        $app->update($user, $id, $amount, $type, $description);
+        $app->update($user, $id, $amount, $type, $description, $time, $currency);
     }
 } else
     echo 'ERROR: No direct access';

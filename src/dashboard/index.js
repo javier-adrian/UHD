@@ -1,4 +1,4 @@
-var declareForm = function (type = "", amount, description, datetime) {
+var declareForm = function (type = "", amount, description, datetime, currency) {
     svgCode = (type) ? "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" : "M12 4.5v15m7.5-7.5h-15"
 
     var dateObject = new Date(datetime * 1000);
@@ -36,7 +36,28 @@ var declareForm = function (type = "", amount, description, datetime) {
                     <label for="datetime" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Date and Time</label>
                     <input value="` + ((datetime) ? formattedDate : "") + `" id="datetime" name="datetime" type="datetime-local" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500" placeholder="MM/YY/DDDD">
                     <label for="amount" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Amount</label>
-                    <input value="` + ((amount) ? (amount / 100).toString() : "") + `" type="number" pattern="^\\d+(\\.|\\,)\\d{2}$" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
+                    <div class="flex flex-nowrap">
+                        <input value="` + ((amount) ? (amount / 100).toString() : "") + `" type="number" pattern="^\\d+(\\.|\\,)\\d{2}$" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
+                        <label for="currency" class="sr-only">Currency</label>
+                        <select id="currency" name="currency" class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-0 sm:text-sm">
+                          <option id="PHP" value="PHP">PHP</option>
+                          <option id="USD" value="USD">USD</option>
+                          <option id="CAD" value="CAD">CAD</option>
+                          <option id="EUR" value="EUR">EUR</option>
+                          <option id="AED" value="AED">AED</option>
+                          <option id="CNY" value="CNY">CNY</option>
+                          <option id="KRW" value="KRW">KRW</option>
+                          <option id="ILS" value="ILS">ILS</option>
+                          <option id="AUD" value="AUD">AUD</option>
+                          <option id="INR" value="INR">INR</option>
+                          <option id="NZD" value="NZD">NZD</option>
+                          <option id="MYR" value="MYR">MYR</option>
+                          <option id="SGD" value="SGD">SGD</option>
+                          <option id="CHF" value="CHF">CHF</option>
+                          <option id="THB" value="THB">THB</option>
+                          <option id="TRY" value="TRY">TRY</option>
+                        </select>
+                    </div>
                     <label for="description" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Description</label>
                     <input value="` + ((description) ? description : "") + `" type="text" id="description" name="description" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
                 </div>
@@ -84,7 +105,8 @@ var spinner = function () {
     };
 }
 
-var item = function(id, amount, description, type, timestamp, datetime) {
+var item = function(id, amount, description, type, timestamp, currency) {
+    console.log(currency)
     var date = new Date(timestamp*1000)
     var yy = date.getFullYear().toString();
     var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
@@ -116,7 +138,7 @@ var item = function(id, amount, description, type, timestamp, datetime) {
             </div>
         </div>
         <div class="ml-4 flex flex-wrap gap-4 sm:gap-8 justify-end md:ml-6 md:mr-6 relative">
-            <button onclick="updateStatement(` + id.toString() + ", " + amount.toString() + ", '" + description + "', '" + type + "', " + timestamp + ` )" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
+            <button onclick="updateStatement(` + id.toString() + ", " + amount.toString() + ", '" + description + "', '" + type + "', " + timestamp + ", '" + currency + `' )" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
                 <svg class="size-4 sm:size-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -137,6 +159,7 @@ var item = function(id, amount, description, type, timestamp, datetime) {
 
 var showDeclareForm = function () {
     $("#full").block(declareForm());
+    $("#currency").val("USD");
 
     // $("#frmDeclare").validate({
     //     rules: {
@@ -214,8 +237,9 @@ var deleteStatement = function (statement) {
     getStatements()
 }
 
-var updateStatement = function (id, amount, description, type, datetime) {
+var updateStatement = function (id, amount, description, type, datetime, currency) {
     $("#full").block(declareForm(type, amount, description, datetime));
+
 
     // $("#frmDeclare").validate({
     //     rules: {
@@ -223,6 +247,7 @@ var updateStatement = function (id, amount, description, type, datetime) {
     //         amount: "required",
     //     },
     // });
+    $("#currency").val(currency);
 
     $("#frmDeclare").submit(function (e) {
         // if (!($('#frmDeclare').valid())){
@@ -230,6 +255,8 @@ var updateStatement = function (id, amount, description, type, datetime) {
         // }
         $("#frmDeclare").block(spinner());
         e.preventDefault()
+
+        var date = new Date($("#datetime").val());
 
         var declareObj = $('#frmDeclare').serializeArray()
 
@@ -267,7 +294,8 @@ var getStatements = function () {
         $("#statements").html("")
 
         for ([key, value] of Object.entries(data)) {
-            $("#statements").append(item(value.id, value.amount, value.description, value.type, value.timestamp))
+            console.log(value.currency)
+            $("#statements").append(item(value.id, value.amount, value.description, value.type, value.timestamp, value.currency))
         }
 
         console.log(Object.entries(data))
