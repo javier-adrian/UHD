@@ -130,7 +130,7 @@ var item = function(id, amount, description, type, timestamp, currency) {
     <li class="flex justify-between gap-x-6 py-5">
         <div class="flex min-w-0 gap-x-6">
             <div class="min-w-0 flex-auto pt-2 w-16 sm:w-32">
-                <p class="text-xl font-semibold text-` + color + `-500 text-right">` + (amount/100).toFixed(2) + `</p>
+                <p class="text-xl font-semibold text-` + color + `-500 text-right">` + currency + " " + (amount/100).toFixed(2) + `</p>
             </div>
             <div class="min-w-0 flex-auto">
                 <p class="text-sm/6 font-semibold text-gray-900">` + description + `</p>
