@@ -25,25 +25,38 @@ var formatBlock = function () {
 
 var checkSession = function () {
     $.get("../scripts/php/checkSession.php", function(data) {
-        var sessiondata = $.parseJSON(data);
-
-        if(sessiondata.isSuccess) {
-            console.log("active session")
+        if($.parseJSON(data).isSuccess) {
             $(location).attr("href", "../dashboard/index.html");
-        } else {
-            console.log("inactive session")
-            // loadFirst();
         }
     });
 }
 
-$.validate({
-    form: "#frmLogin",
-    modules: "security"
+$("#frmRegister").validate({
+    modules: "security",
+    rules: {
+        username: {
+            required: true,
+            minlength: 5,
+        },
+        password: {
+            required: true,
+            minlength: 5,
+        },
+        confirmPassword: {
+            required: true,
+            equalTo: "#password",
+        },
+    },
+    submitHandler: function (form, event) {
+        event.preventDefault()
+        register()
+    },
+    errorPlacement: function (error, element) {
+        $(`#${element.attr("id")}-error`).html(`${error.html()}`);
+    }
 });
 
-$("#frmRegister").submit(function(e) {
-    e.preventDefault();
+var register = function (e) {
     $("#signup").block(formatBlock());
 
     var registerObj = $("#frmRegister").serializeArray();
@@ -68,10 +81,17 @@ $("#frmRegister").submit(function(e) {
             });
         } else {
             var msg = data.msg;
-            checkSession();
         }
 
     }, "json");
 
     $("#signup").unblock();
+    checkSession();
+}
+
+$("#frmRegister input").on("input", function () {
+    var element = $(this);
+    if (element.valid()) {
+        $(`#${element.attr("id")}-error`).html(""); // Remove the error message
+    }
 });

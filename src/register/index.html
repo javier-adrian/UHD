@@ -26,7 +26,7 @@
                 <div id="admin-msg"></div>
 
                 <label for="username" class="text-stone-900 ml-1 my-4 basis-full text-xs md:text-base font-semibold w-full shrink-0">
-                    Username
+                    Username <span id="username-error" class="font-normal text-xs italic text-red-500"></span>
                 </label>
                 <input name="username" type="text" id="username" class="mt-4 mb-8 py-2 px-2 w-full border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
 
@@ -42,12 +42,12 @@
 
 
                 <label for="password" class="text-stone-900 ml-1 mb-4 text-xs md:text-base font-semibold">
-                    Password
+                    Password <span id="password-error" class="font-normal text-xs italic text-red-500"></span>
                 </label>
                 <input name="password" type="password" id="password" class="mt-4 mb-8 py-2 px-2 w-full border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
 
                 <label for="confirm-password" class="text-stone-900 ml-1 mb-4 text-xs md:text-base font-semibold">
-                    Confirm password
+                    Confirm password <span id="confirm-password-error" class="font-normal text-xs italic text-red-500"></span>
                 </label>
                 <input name="confirmPassword" type="password" id="confirm-password" class="mt-4 mb-8 py-2 px-2 w-full border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
 

@@ -25,9 +25,7 @@ var formatBlock = function () {
 
 var checkSession = function() {
     $.get("scripts/php/checkSession.php", function(data) {
-        var sessiondata = $.parseJSON(data);
-
-        if(sessiondata.isSuccess) {
+        if($.parseJSON(data).isSuccess) {
             $(location).attr("href", "dashboard/index.html");
         }
     });
