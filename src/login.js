@@ -9,8 +9,17 @@ var formatBlock = function () {
         css: {
             border: "0px solid #1c1917",
             borderRadius: "5px",
-            boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)"
-        }
+            boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)"
+        },
+        overlayCSS: {
+            opacity: "0.1",
+            width: "200vw",
+            height: "200vh",
+            cursor: "default"
+        },
     };
 }
 
@@ -42,7 +51,7 @@ var handleFormEvents = function () {
 var onLogin = function () {
     $("#frmLogin").submit(function(e) {
         e.preventDefault();
-        $('#login').block(formatBlock());
+        $.blockUI(formatBlock());
 
         var loginObj = $('#frmLogin').serializeArray();
 
@@ -61,9 +70,13 @@ var onLogin = function () {
 
                 $("#admin-msg").html(alert);
 
-				document.getElementById("dismiss").onclick = function () {
-					document.getElementById("admin-msg").innerHTML = "";
-				};
+                $("#dismiss").on("click", function () {
+                    $("#admin-msg").html("")
+                });
+
+				// document.getElementById("dismiss").onclick = function () {
+				// 	document.getElementById("admin-msg").innerHTML = "";
+				// };
             } else {
                 var msg = data.msg;
                 checkSession();
@@ -71,7 +84,7 @@ var onLogin = function () {
 
         }, "json");
 
-        $("#login").unblock();
+        $.unblockUI();
     });
 };
 

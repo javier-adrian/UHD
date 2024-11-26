@@ -1,6 +1,4 @@
-var declareForm = function (type = "", amount, description, datetime) {
-    svgCode = (type) ? "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" : "M12 4.5v15m7.5-7.5h-15"
-
+var formatDate = function (datetime) {
     var dateObject = new Date(datetime * 1000);
 
     var year = dateObject.getFullYear();
@@ -9,7 +7,12 @@ var declareForm = function (type = "", amount, description, datetime) {
     var hours = String(dateObject.getHours()).padStart(2, '0');
     var minutes = String(dateObject.getMinutes()).padStart(2, '0');
 
-    var formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+var declareForm = function (type = "", amount, description, datetime) {
+    svgCode = (type) ? "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" : "M12 4.5v15m7.5-7.5h-15"
+
     return {
         message:
             `<form id="frmDeclare" class="p-4" action="#" method="POST">
@@ -34,7 +37,7 @@ var declareForm = function (type = "", amount, description, datetime) {
 
                 <div class="flex flex-wrap justify-start mt-4">
                     <label for="datetime" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Date and Time</label>
-                    <input value="${(datetime) ? formattedDate : ""}" id="datetime" name="datetime" type="datetime-local" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500" placeholder="MM/YY/DDDD">
+                    <input value="${(datetime) ? formatDate(datetime) : ""}" id="datetime" name="datetime" type="datetime-local" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500" placeholder="MM/YY/DDDD">
                     <label for="amount" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Amount</label>
                     <div class="flex flex-nowrap">
                         <input value="${(amount) ? (amount / 100).toString() : ""}" type="number" pattern="^\\d+(\\.|\\,)\\d{2}$" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
@@ -79,7 +82,6 @@ var declareForm = function (type = "", amount, description, datetime) {
             cursor: "default",
             top: "50%",
             left: "50%",
-            top: "50%",
             transform: "translate(-50%, -50%)"
         },
         overlayCSS: {
