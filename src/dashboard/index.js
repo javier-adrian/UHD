@@ -321,7 +321,14 @@ var getStatements = function () {
         for ([year, value] of Object.entries(data).reverse()) {
             $("#statements").append(`<div id="${year}"></div>`)
             if (now.getFullYear() != year) {
-                $(`#${year}`).append(`<h2 class="px-3 py-8 text-center text-8xl font-semibold text-stone-900">${year}</h2>`)
+                $(`#${year}`).append(`
+                    <div class="relative flex py-5 items-center">
+                        <div class="flex-grow border-t border-gray-200"></div>
+                            <h2 class="flex-shrink mx-4 px-3 py-8 text-center text-8xl font-semibold text-stone-900">${year}</h2>
+                        <div class="flex-grow border-t border-gray-200"></div>
+                    </div>
+                
+                `)
             }
             for ([month, value] of Object.entries(data[year]).reverse()) {
                 $(`#${year}`).append(`<div id="${year}${month}"></div>`)
