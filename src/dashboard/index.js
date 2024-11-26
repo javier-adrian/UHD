@@ -34,11 +34,13 @@ var declareForm = function (type = "", amount, description, datetime) {
                         Expense
                     </label>
                 </div>
+                
+                <p id="income-error" class="font-normal text-xs italic text-red-500 pt-2"></p>
 
                 <div class="flex flex-wrap justify-start mt-4">
-                    <label for="datetime" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Date and Time</label>
+                    <label for="datetime" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Date and Time <span id="datetime-error" class="font-normal text-xs italic text-red-500"></span></label>
                     <input value="${(datetime) ? formatDate(datetime) : ""}" id="datetime" name="datetime" type="datetime-local" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500" placeholder="MM/YY/DDDD">
-                    <label for="amount" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Amount</label>
+                    <label for="amount" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Amount <span id="amount-error" class="font-normal text-xs italic text-red-500"></span></label>
                     <div class="flex flex-nowrap">
                         <input value="${(amount) ? (amount / 100).toString() : ""}" type="number" pattern="^\\d+(\\.|\\,)\\d{2}$" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
                         <label for="currency" class="sr-only">Currency</label>
@@ -61,7 +63,7 @@ var declareForm = function (type = "", amount, description, datetime) {
                           <option id="TRY" value="TRY">TRY</option>
                         </select>
                     </div>
-                    <label for="description" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Description</label>
+                    <label for="description" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Description <span id="description-error" class="font-normal text-xs italic text-red-500"></span></label>
                     <input value="${(description) ? description : ""}" type="text" id="description" name="description" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
                 </div>
 
@@ -163,6 +165,34 @@ var item = function(value) {
     `
 }
 
+var add = function () {
+    $("#frmDeclare").block(spinner());
+
+    var date = new Date($("#datetime").val())
+
+    var declareObj = $("#frmDeclare").serializeArray()
+    declareObj[2].value *= 100
+    declareObj.push({
+        name: "datetime",
+        value: date.valueOf() / 1000
+    })
+
+    declareObj.push({
+        name: "action",
+        value: "isCreate"
+    })
+
+    console.log(declareObj)
+
+    $.post("../scripts/php/statement.php", declareObj, function (data) {
+        console.log(data.msg)
+        getStatements()
+    }, "json")
+
+    $('#frmDeclare').unblock();
+    hideDeclareForm()
+}
+
 var showDeclareForm = function () {
     $("body").addClass("no-scroll")
     $.blockUI(declareForm());
@@ -172,45 +202,33 @@ var showDeclareForm = function () {
         hideDeclareForm()
     })
 
-    // $("#frmDeclare").validate({
-    //     rules: {
-    //         type: "required",
-    //         amount: "required",
-    //     },
-    // });
+    $("#frmDeclare").validate({
+        modules: "security",
+        ignore: ".ignore",
+        rules: {
+            type: "required",
+            amount: {
+                required: true,
+                number: true
+            },
+            datetime: "required",
+            description: "required",
+        },
+        submitHandler: function () {
+            add()
+        },
+        errorPlacement: function (error, element) {
+            console.log(element)
+            $(`#${element.attr("id")}-error`).html(`${error.html()}`);
+        }
+    });
 
-
-    $("#frmDeclare").submit(function (e) {
-        // if (!($('#frmDeclare').valid())){
-        //     console.log("lkjsdkfj")
-        // }
-        $("#frmDeclare").block(spinner());
-        e.preventDefault()
-
-        var date = new Date($("#datetime").val())
-
-        var declareObj = $("#frmDeclare").serializeArray()
-        declareObj[2].value *= 100
-        declareObj.push({
-            name: "datetime",
-            value: date.valueOf() / 1000
-        })
-
-        declareObj.push({
-            name: "action",
-            value: "isCreate"
-        })
-
-        console.log(declareObj)
-
-        $.post("../scripts/php/statement.php", declareObj, function (data) {
-            console.log(data.msg)
-            getStatements()
-        }, "json")
-
-        $('#frmDeclare').unblock();
-        hideDeclareForm()
-    })
+    $("#frmDeclare input").on("input", function () {
+        var element = $(this);
+        if (element.valid()) {
+            $(`#${element.attr("id")}-error`).html("");
+        }
+    });
 }
 
 var hideDeclareForm = function () {
@@ -249,6 +267,41 @@ var deleteStatement = function (statement) {
     getStatements()
 }
 
+var update = function (id) {
+    $("#frmDeclare").block(spinner());
+
+    var date = new Date($("#datetime").val());
+
+    var declareObj = $('#frmDeclare').serializeArray()
+
+    declareObj.push({
+        name: "datetime",
+        value: date.valueOf() / 1000
+    })
+
+    declareObj[2].value *= 100
+
+    declareObj.push({
+        name: "id",
+        value: id
+    })
+
+    declareObj.push({
+        name: "action",
+        value: "isUpdate"
+    })
+
+    console.log(declareObj)
+
+    $.post("../scripts/php/statement.php", declareObj, function (data) {
+        console.log(data.msg)
+    }, "json")
+
+    getStatements()
+    $("#frmDeclare").unblock();
+    hideDeclareForm()
+}
+
 var updateStatement = function (value) {
     var {id, amount, description, type, currency, datetime} = value
 
@@ -260,54 +313,35 @@ var updateStatement = function (value) {
         hideDeclareForm()
     })
 
-    // $("#frmDeclare").validate({
-    //     rules: {
-    //         type: "required",
-    //         amount: "required",
-    //     },
-    // });
+    $("#frmDeclare").validate({
+        modules: "security",
+        ignore: ".ignore",
+        rules: {
+            type: "required",
+            amount: {
+                required: true,
+                number: true
+            },
+            datetime: "required",
+            description: "required",
+        },
+        submitHandler: function () {
+            update(id)
+        },
+        errorPlacement: function (error, element) {
+            console.log(element)
+            $(`#${element.attr("id")}-error`).html(`${error.html()}`);
+        }
+    });
+
+    $("#frmDeclare input").on("input", function () {
+        var element = $(this);
+        if (element.valid()) {
+            $(`#${element.attr("id")}-error`).html("");
+        }
+    });
 
     $("#currency").val(currency);
-
-    $("#frmDeclare").submit(function (e) {
-        // if (!($('#frmDeclare').valid())){
-        //     console.log("lkjsdkfj")
-        // }
-
-        $("#frmDeclare").block(spinner());
-        e.preventDefault()
-
-        var date = new Date($("#datetime").val());
-
-        var declareObj = $('#frmDeclare').serializeArray()
-
-        declareObj.push({
-            name: "datetime",
-            value: date.valueOf() / 1000
-        })
-
-        declareObj[2].value *= 100
-
-        declareObj.push({
-            name: "id",
-            value: id
-        })
-
-        declareObj.push({
-            name: "action",
-            value: "isUpdate"
-        })
-
-        console.log(declareObj)
-
-        $.post("../scripts/php/statement.php", declareObj, function (data) {
-            console.log(data.msg)
-        }, "json")
-
-        getStatements()
-        $("#frmDeclare").unblock();
-        hideDeclareForm()
-    })
 }
 
 // var getStatements = function () {
