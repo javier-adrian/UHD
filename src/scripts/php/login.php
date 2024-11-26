@@ -1,14 +1,12 @@
 <?php
-
 session_start();
-require 'dbconn.php';
+require 'db.php';
 
-class Register
+class Login
 {
-    public function checkRedundancy($username)
+    public function checkUser($username)
     {
         error_reporting(E_ERROR);
-
         $config = new Config();
         $conn = $config->conn;
 
@@ -42,83 +40,94 @@ class Register
             $conn->close();
         }
     }
-    public function register($username, $password, $email, $number)
+
+    public function getHashPassword($username)
     {
         error_reporting(E_ERROR);
-
         $config = new Config();
+
         $conn = $config->conn;
 
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $redundant = $this->checkRedundancy($username);
-            if ($redundant == 'USER_FOUND')
-                return 'USER_ALREADY_REGISTERED';
-            else
+            $query = 'SELECT password FROM user WHERE username = ?';
+
+            if ($stmt = $conn->prepare($query))
             {
-                $query = "INSERT INTO user (username, password, email, number) VALUES (?, ?, ?, ?)";
+                $stmt->bind_param('s', $username);
 
-                if ($stmt = $conn->prepare($query))
+                if ($stmt->execute())
                 {
-                    $stmt->bind_param("ssss",  $username,  $password, $email, $number);
+                    $stmt->bind_result($password);
+                    $stmt->store_result();
 
-                    if ($stmt->execute())
-                    {
-                        $stmt->close();
-                        return 'USER_REGISTERED';
-                    } else
-                        return $stmt->error;
+                    if ($stmt->num_rows > 0)
+                        while($stmt->fetch())
+                            return $password;
+
+                    $stmt->close();
                 } else
-                    return $conn->error;
-            }
+                    return $stmt->error;
+            } else
+                return $conn->error;
+
+            $conn->close();
         }
     }
 
-    public function doSignup($username, $password, $email, $number)
+    public function verifyInput($password, $hashpassword)
     {
-        $app = new Register();
+        return crypt($password, $hashpassword) == $hashpassword;
+    }
+
+    public function doLogin($username, $password)
+    {
+        $app = new Login();
         $response = array();
 
-        $redundancy = $app->checkRedundancy($username);
+        $checkUser = $app->checkUser($username);
 
-        if ($redundancy == 'USER_NOT_FOUND') {
+        if ($checkUser == 'USER_FOUND') {
 
-            $register = $app->register($username, crypt($password, "pepper"), $email, $number);
+            $hashpassword = $app->getHashPassword($username);
+            $verifyPassword = $app->verifyInput($password, $hashpassword);
 
-            $response['isSuccess'] = true;
-            $response['value'] = 1;
-            $response['msg'] = "Signup Successful";
-        } else if ($redundancy == 'USER_FOUND') {
+            if ($verifyPassword) {
+                $response['isSuccess'] = true;
+                $response['value'] = 1;
+                $response['msg'] = "Login Successful";
+            } else {
+                $response['isSuccess'] = false;
+                $response['value'] = 0;
+                $response['msg'] = "Invalid Login Credentials";
+            }
+        } else if ($checkUser == 'USER_NOT_FOUND') {
             $response['isSuccess'] = false;
             $response['value'] = 0;
-            $response['msg'] = "Username already exists";
+            $response['msg'] = "User not found";
         } else {
             $response['isSuccess'] = false;
             $response['value'] = 0;
-            $response['msg'] = "Signup Unsuccessful";
+            $response['msg'] = $checkUser;
         }
 
         return json_encode($response);
     }
 }
 
-$app = new Register();
+$app = new Login();
 
 if (isset($_REQUEST['action']))
 {
-//    file_put_contents('php://stderr', print_r($_REQUEST['action'], TRUE));
-    if ($_REQUEST['action'] == 'isSignup')
+    if ($_REQUEST['action'] == 'isLogin')
     {
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
-        $email = $_REQUEST['email'];
-        $number = $_REQUEST['number'];
 
-        $response = $app->doSignup($username, $password, $email, $number);
+        $response = $app->doLogin($username, $password);
 
         echo $response;
-
         $decode_response = json_decode($response);
 
         if ($decode_response->isSuccess)

@@ -55,7 +55,7 @@ var onLogin = function () {
 
         var loginObj = $('#frmLogin').serializeArray();
 
-        $.post("scripts/php/loginStudent.php", loginObj, function(data) {
+        $.post("scripts/php/login.php", loginObj, function(data) {
             if (!data.isSuccess) {
                 var msg = data.msg;
 

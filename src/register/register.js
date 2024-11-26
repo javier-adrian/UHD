@@ -48,7 +48,7 @@ $("#frmRegister").submit(function(e) {
 
     var registerObj = $("#frmRegister").serializeArray();
 
-    $.post("../scripts/php/Register.php", registerObj, function(data) {
+    $.post("../scripts/php/register.php", registerObj, function(data) {
         console.log(data.msg)
         if (!data.isSuccess) {
             var msg = data.msg;

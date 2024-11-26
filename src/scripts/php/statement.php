@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require 'dbconn.php';
+require 'db.php';
 
 class Statement
 {
@@ -15,7 +15,7 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = 'SELECT id from user where username = ?';
+            $query = 'SELECT id FROM user WHERE username = ?';
 
             if ($stmt = $conn->prepare($query))
             {

@@ -219,7 +219,7 @@ var hideDeclareForm = function () {
 }
 
 var logout = function () {
-    $.get("../scripts/php/logout.php", function (data) {
+    $.get("../scripts/php/unsetSession.php", function (data) {
         var sessiondata = $.parseJSON(data);
 
         console.log(sessiondata)
