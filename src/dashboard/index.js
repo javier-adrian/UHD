@@ -326,7 +326,7 @@ var updateStatement = function (value) {
 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 var getStatements = function () {
-    $.get("../scripts/php/statement.php", {"action": "isTest", "user": 1}, function (data) {
+    $.get("../scripts/php/statement.php", {"action": "isRead"}, function (data) {
         console.log(data)
 
         $("#statements").html("")
