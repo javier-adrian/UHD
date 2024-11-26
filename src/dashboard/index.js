@@ -1,4 +1,4 @@
-var declareForm = function (type = "", amount, description, datetime, currency) {
+var declareForm = function (type = "", amount, description, datetime) {
     svgCode = (type) ? "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" : "M12 4.5v15m7.5-7.5h-15"
 
     var dateObject = new Date(datetime * 1000);
@@ -14,7 +14,7 @@ var declareForm = function (type = "", amount, description, datetime, currency) 
         message:
             `<form id="frmDeclare" class="p-4" action="#" method="POST">
                 <div class="flex justify-start">
-                    <button type="button" onclick="hideDeclareForm()" class="rounded-full bg-white relative flex max-w-xs items-center text-sm text-gray-400">
+                    <button type="button" class="hideButton rounded-full bg-white relative flex max-w-xs items-center text-sm text-gray-400">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                         </svg>
@@ -71,8 +71,6 @@ var declareForm = function (type = "", amount, description, datetime, currency) 
                 </div>
 
             </form>`,
-        // centerX: true,
-        // centerY: true,
         css: {
             border: "0px solid #1c1917",
             width: "300px",
@@ -83,10 +81,6 @@ var declareForm = function (type = "", amount, description, datetime, currency) 
             left: "50%",
             top: "50%",
             transform: "translate(-50%, -50%)"
-            // position: "fixed",  /* Use fixed positioning to stay centered even when scrolling */
-            // margin: "auto",  /* Use fixed positioning to stay centered even when scrolling */
-            // top: ($(window).height() - 437) / 2.1+$(window).scrollTop() + "px",
-            // left: ($(window).width() - 300) / 2.1+$(window).scrollLeft() + "px",
         },
         overlayCSS: {
             opacity: "0.1",
@@ -123,7 +117,8 @@ var spinner = function () {
     };
 }
 
-var item = function(id, amount, description, type, timestamp, currency, datetime) {
+var item = function(value) {
+    var {id, amount, description, type, timestamp, currency, datetime} = value
 
     var color = "black"
     if (type === "expense")
@@ -132,7 +127,7 @@ var item = function(id, amount, description, type, timestamp, currency, datetime
         color = "blue"
 
     return `
-    <li class="group flex justify-between gap-x-6 py-5 relative">
+    <li id="${id}" class="group flex justify-between gap-x-6 py-5 relative">
         <div class="flex min-w-0 gap-x-6">
             <div class="min-w-0 flex-auto sm:pt-2 w-16 sm:w-32">
                 <p class="text-xl font-semibold text-${color}-500 text-right"> <span class="text-black text-xs">${currency}</span> ${(amount/100).toFixed(2)}</p>
@@ -147,14 +142,14 @@ var item = function(id, amount, description, type, timestamp, currency, datetime
         </div>
 
         <div class="ml-4 flex flex-wrap gap-4 sm:gap-8 justify-end md:ml-6 md:mr-6 relative">
-            <button onclick="updateStatement(${id.toString()}, ${amount.toString()}, '${description}', '${type}', ${new Date(datetime).valueOf() / 1000}, '${currency}')" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <button class="itemUpdate basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <svg class="size-4 sm:size-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
                 </svg>
             </button>
-            <button onclick="deleteStatement(${id.toString()})" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <button class="itemDelete basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <svg class="size-4 sm:size-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -170,6 +165,10 @@ var showDeclareForm = function () {
     $("body").addClass("no-scroll")
     $.blockUI(declareForm());
     $("#currency").val("USD");
+
+    $("#frmDeclare .hideButton").on("click", function () {
+        hideDeclareForm()
+    })
 
     // $("#frmDeclare").validate({
     //     rules: {
@@ -248,10 +247,16 @@ var deleteStatement = function (statement) {
     getStatements()
 }
 
-var updateStatement = function (id, amount, description, type, datetime, currency) {
-    $("body").css("no-scroll")
-    $.blockUI(declareForm(type, amount, description, datetime));
+var updateStatement = function (value) {
+    var {id, amount, description, type, currency, datetime} = value
 
+    $("body").css("no-scroll")
+
+    $.blockUI(declareForm(type, amount, description, new Date(datetime).valueOf() / 1000));
+
+    $("#frmDeclare .hideButton").on("click", function () {
+        hideDeclareForm()
+    })
 
     // $("#frmDeclare").validate({
     //     rules: {
@@ -259,12 +264,14 @@ var updateStatement = function (id, amount, description, type, datetime, currenc
     //         amount: "required",
     //     },
     // });
+
     $("#currency").val(currency);
 
     $("#frmDeclare").submit(function (e) {
         // if (!($('#frmDeclare').valid())){
         //     console.log("lkjsdkfj")
         // }
+
         $("#frmDeclare").block(spinner());
         e.preventDefault()
 
@@ -319,10 +326,14 @@ var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'A
 var getStatements = function () {
     $.get("../scripts/php/statement.php", {"action": "isTest", "user": 1}, function (data) {
         console.log(data)
+
         $("#statements").html("")
+
         var now = new Date()
+
         for ([year, value] of Object.entries(data).reverse()) {
             $("#statements").append(`<div id="${year}"></div>`)
+
             if (now.getFullYear() != year) {
                 $(`#${year}`).append(`
                     <div class="relative flex py-5 items-center">
@@ -332,19 +343,35 @@ var getStatements = function () {
                     </div>
                 `)
             }
+
             for ([month, value] of Object.entries(data[year]).reverse()) {
                 $(`#${year}`).append(`<div id="${year}${month}"></div>`)
+
                 if (now.getMonth() + 1 != month || now.getFullYear() != year) {
                     $(`#${year}${month}`).append(`<h2 class="px-3 py-2 text-4xl font-semibold text-stone-900">${months[month - 1]}</h2>`)
                 }
+
                 for ([day, value] of Object.entries(data[year][month]).reverse()) {
                     $(`#${year}${month}`).append(`<div id="${year}${month}${day}" class="divide-y divide-gray-100"></div>`)
+
                     if (now.getDay() != month || now.getMonth() + 1 != month || now.getFullYear() != year) {
                         $(`#${year}${month}${day}`).append(`<h2 class="px-3 py-2 text-lg font-semibold text-stone-900">${day}</h2>`)
                     }
-                    for ([id, value] of Object.entries(data[year][month][day]).reverse()) {
+
+                    for (let [id, value] of Object.entries(data[year][month][day]).reverse()) { // let to restart the value for some reason???
                         console.log(value)
-                        $(`#${year}${month}${day}`).append(item(value.id, value.amount, value.description, value.type, value.timestamp, value.currency, value.datetime))
+
+                        $(`#${year}${month}${day}`).append(item(value))
+
+                        $(`#${year}${month}${day}`).on("click", `#${id} .itemDelete`, function () {
+                            deleteStatement(id)
+                        })
+
+                        $(`#${year}${month}${day}`).on("click", `#${id} .itemUpdate`, function () {
+                            updateStatement(value)
+                        })
+
+                        console.log($(`#${id} .itemUpdate`))
                     }
                 }
             }
