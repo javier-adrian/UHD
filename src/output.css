@@ -1504,6 +1504,11 @@ select {
   padding-bottom: 1.5rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -1552,6 +1557,16 @@ select {
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.text-8xl {
+  font-size: 6rem;
+  line-height: 1;
 }
 
 .text-lg {
@@ -1666,6 +1681,16 @@ select {
   color: rgb(185 28 28 / var(--tw-text-opacity));
 }
 
+.text-stone-500 {
+  --tw-text-opacity: 1;
+  color: rgb(120 113 108 / var(--tw-text-opacity));
+}
+
+.text-stone-700 {
+  --tw-text-opacity: 1;
+  color: rgb(68 64 60 / var(--tw-text-opacity));
+}
+
 .text-stone-900 {
   --tw-text-opacity: 1;
   color: rgb(28 25 23 / var(--tw-text-opacity));
@@ -1750,6 +1775,34 @@ select {
   font-family: "Inter";
 
   src: url("assets/Inter-VariableFont_slnt,wght.ttf");
+}
+
+.blockUI {
+  position: fixed;
+  /* Keep it fixed on the screen */
+  top: 50%;
+  /* Center vertically */
+  left: 50%;
+  /* Center horizontally */
+  transform: translate(-50%, -50%);
+  /* Fine-tune the centering */
+  z-index: 9999;
+  /* Ensure it stays on top */
+  display: none;
+  /* Hidden by default */
+}
+
+.blockUI.blockOverlay {
+  width: 100%;
+  /* Make sure it spans the full width */
+  height: 100vh;
+  /* Cover the full height of the screen */
+  top: 0;
+  left: 0;
+}
+
+.no-scroll {
+  overflow: hidden;
 }
 
 .hover\:border-gray-300:hover {

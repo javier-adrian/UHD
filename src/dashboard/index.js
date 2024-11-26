@@ -71,16 +71,34 @@ var declareForm = function (type = "", amount, description, datetime, currency) 
                 </div>
 
             </form>`,
+        // centerX: true,
+        // centerY: true,
         css: {
             border: "0px solid #1c1917",
             width: "300px",
             borderRadius: "0.375rem",
             boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-            cursor: "default"
+            cursor: "default",
+            top: "50%",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)"
+            // position: "fixed",  /* Use fixed positioning to stay centered even when scrolling */
+            // margin: "auto",  /* Use fixed positioning to stay centered even when scrolling */
+            // top: ($(window).height() - 437) / 2.1+$(window).scrollTop() + "px",
+            // left: ($(window).width() - 300) / 2.1+$(window).scrollLeft() + "px",
         },
         overlayCSS: {
             opacity: "0.1",
+            width: "200vw",
+            height: "200vh",
             cursor: "default"
+        },
+        onBlock: function () {
+            $("body").addClass("no-scroll")
+        },
+        onUnblock: function () {
+            $("body").removeClass("no-scroll")
         }
     }
 }
@@ -105,27 +123,13 @@ var spinner = function () {
     };
 }
 
-var item = function(id, amount, description, type, timestamp, currency) {
-    console.log(currency)
-    var date = new Date(timestamp*1000)
-    var year = date.getFullYear().toString();
-    var month = (date.getMonth()+1).toString(); // getMonth() is zero-based
-    var day  = date.getDate().toString();
-    var hour  = date.getHours().toString();
-    var minute  = date.getMinutes().toString();
-
-    if (minute.length == 1)
-        minute = "0" + minute
-
-    var dateString = `${month[1] ? month : '0' + month[0]}/${day[1] ? day : '0' + day[0]}/${year} ${hour}:${minute}`
+var item = function(id, amount, description, type, timestamp, currency, datetime) {
 
     var color = "black"
     if (type === "expense")
         color = "red"
     if (type === "income")
         color = "blue"
-
-
 
     return `
     <li class="flex justify-between gap-x-6 py-5">
@@ -135,11 +139,11 @@ var item = function(id, amount, description, type, timestamp, currency) {
             </div>
             <div class="min-w-0 flex-auto">
                 <p class="text-sm/6 font-semibold text-gray-900">${description}</p>
-                <p class="mt-1 truncate text-xs/5 text-gray-500">${dateString}</p>
+                <p class="mt-1 truncate text-xs/5 text-gray-500">${timestamp.toString().slice(0,-3)}</p>
             </div>
         </div>
         <div class="ml-4 flex flex-wrap gap-4 sm:gap-8 justify-end md:ml-6 md:mr-6 relative">
-            <button onclick="updateStatement(${id.toString()}, ${amount.toString()}, '${description}', '${type}', ${timestamp}, '${currency}')" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
+            <button onclick="updateStatement(${id.toString()}, ${amount.toString()}, '${description}', '${type}', ${new Date(datetime).valueOf() / 1000}, '${currency}')" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
                 <svg class="size-4 sm:size-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -159,7 +163,8 @@ var item = function(id, amount, description, type, timestamp, currency) {
 }
 
 var showDeclareForm = function () {
-    $("#full").block(declareForm());
+    $("body").addClass("no-scroll")
+    $.blockUI(declareForm());
     $("#currency").val("USD");
 
     // $("#frmDeclare").validate({
@@ -198,13 +203,14 @@ var showDeclareForm = function () {
             getStatements()
         }, "json")
 
-        $('#frmDeclare').unblock();
+        $('#frmDeclare').unblockUI();
         hideDeclareForm()
+        $("body").removeClass("no-scroll")
     })
 }
 
 var hideDeclareForm = function () {
-    $('#full').unblock();
+    $.unblockUI();
 }
 
 var logout = function () {
@@ -239,7 +245,8 @@ var deleteStatement = function (statement) {
 }
 
 var updateStatement = function (id, amount, description, type, datetime, currency) {
-    $("#full").block(declareForm(type, amount, description, datetime));
+    $("body").css("no-scroll")
+    $.blockUI(declareForm(type, amount, description, datetime));
 
 
     // $("#frmDeclare").validate({
@@ -285,23 +292,57 @@ var updateStatement = function (id, amount, description, type, datetime, currenc
         }, "json")
 
         getStatements()
-        $("#frmDeclare").unblock();
+        $("#frmDeclare").unblockUI();
         hideDeclareForm()
+        $("body").removeClass("no-scroll")
     })
 }
 
+// var getStatements = function () {
+//     $.get("../scripts/php/statement.php", {"action": "isRead"}, function (data) {
+//         $("#statements").html("")
+//
+//         for ([key, value] of Object.entries(data)) {
+//             console.log(value.currency)
+//             $("#statements").append(item(value.id, value.amount, value.description, value.type, value.timestamp, value.currency))
+//         }
+//
+//         console.log(Object.entries(data))
+//     }, "json")
+// }
+
+var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 var getStatements = function () {
-    $.get("../scripts/php/statement.php", {"action": "isRead"}, function (data) {
+    $.get("../scripts/php/statement.php", {"action": "isTest", "user": 1}, function (data) {
+        console.log(data)
         $("#statements").html("")
-
-        for ([key, value] of Object.entries(data)) {
-            console.log(value.currency)
-            $("#statements").append(item(value.id, value.amount, value.description, value.type, value.timestamp, value.currency))
+        var now = new Date()
+        for ([year, value] of Object.entries(data).reverse()) {
+            $("#statements").append(`<div id="${year}"></div>`)
+            if (now.getFullYear() != year) {
+                $(`#${year}`).append(`<h2 class="px-3 py-8 text-center text-8xl font-semibold text-stone-900">${year}</h2>`)
+            }
+            for ([month, value] of Object.entries(data[year]).reverse()) {
+                $(`#${year}`).append(`<div id="${year}${month}"></div>`)
+                if (now.getMonth() + 1 != month || now.getFullYear() != year) {
+                    $(`#${year}${month}`).append(`<h2 class="px-3 py-2 text-4xl font-semibold text-stone-900">${months[month - 1]}</h2>`)
+                }
+                for ([day, value] of Object.entries(data[year][month]).reverse()) {
+                    $(`#${year}${month}`).append(`<div id="${year}${month}${day}" class="divide-y divide-gray-100"></div>`)
+                    if (now.getDay() != month || now.getMonth() + 1 != month || now.getFullYear() != year) {
+                        $(`#${year}${month}${day}`).append(`<h2 class="px-3 py-2 text-lg font-semibold text-stone-900">${day}</h2>`)
+                    }
+                    for ([id, value] of Object.entries(data[year][month][day]).reverse()) {
+                        console.log(value)
+                        $(`#${year}${month}${day}`).append(item(value.id, value.amount, value.description, value.type, value.timestamp, value.currency, value.datetime))
+                    }
+                }
+            }
         }
-
-        console.log(Object.entries(data))
     }, "json")
-
 }
 
+
 getStatements()
+// read()

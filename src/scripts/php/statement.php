@@ -98,6 +98,50 @@ class Statement
         }
     }
 
+    public function readNew($user) {
+        error_reporting(E_ERROR);
+
+        $config = new Config();
+        $conn = $config->conn;
+
+        if ($conn->connect_error)
+            return $conn->connect_error;
+        else {
+            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, TO_CHAR(timestamp, 'HH24:MI:SS'), description, type, currency, timestamp FROM statement WHERE user = ? ORDER BY timestamp";
+
+            if ($stmt = $conn->prepare($query))
+            {
+                $stmt->bind_param("i",  $user);
+
+                $statements = array();
+                $statement = array();
+
+                if ($stmt->execute())
+                {
+                    $stmt->bind_result($day, $month, $year, $id, $amount, $timestamp, $description, $type, $currency, $datetime);
+
+                    while ($stmt->fetch())
+                    {
+                        $statement["id"] = $id;
+                        $statement["amount"] = $amount;
+                        $statement["timestamp"] = $timestamp;
+                        $statement["description"] = $description;
+                        $statement["type"] = $type;
+                        $statement["currency"] = $currency;
+                        $statement["datetime"] = $datetime;
+                        $statements[$year][$month][$day][strval($id)] = $statement;
+                    }
+
+                    $stmt->close();
+
+                    return json_encode($statements);
+                } else
+                    return $stmt->error;
+            } else
+                return $conn->error;
+        }
+    }
+
     public function addStatement($user, $type, $amount, $time, $description, $currency)
     {
         error_reporting(E_ERROR);
@@ -255,6 +299,15 @@ if (isset($_REQUEST['action']))
 //        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
         $app->update($user, $id, $amount, $type, $description, $time, $currency);
+    }
+    if ($_REQUEST['action'] == 'isTest')
+    {
+        $id = $_REQUEST['user'];
+        file_put_contents('php://stderr', print_r("TEST", TRUE));
+
+        echo $app->readNew($id);
+
+//        $app->update($user, $id, $amount, $type, $description, $time, $currency);
     }
 } else
     echo 'ERROR: No direct access';
