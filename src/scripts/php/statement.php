@@ -7,7 +7,6 @@ class Statement
 {
     public function getUser($username)
     {
-
         error_reporting(E_ERROR);
 
         $config = new Config();
@@ -56,7 +55,7 @@ class Statement
 
                 if ($stmt->execute())
                 {
-                    echo "Deleted Successfully";
+                    return "Deleted Successfully";
                 } else
                     return $stmt->error;
             } else
@@ -86,20 +85,14 @@ class Statement
                 if ($stmt->execute())
                 {
                     file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
-                    echo "Updated Successfully";
+                    return "Updated Successfully";
                 } else
-                    file_put_contents('php://stderr', print_r("lladslkfjsad", TRUE));
-                    echo "Update unsuccessful";
                     return $stmt->error;
             } else
                 return $conn->error;
 
             $conn->close();
         }
-    }
-
-    public function readNew($user) {
-
     }
 
     public function addStatement($user, $type, $amount, $time, $description, $currency)
@@ -193,26 +186,6 @@ class Statement
 
         return json_encode($response);
     }
-
-//    public function read($user)
-//    {
-//        $response = array();
-//
-//        $read = $this->readStatements($user);
-//
-//        if ($read) {
-//
-//            $response['isSuccess'] = true;
-//            $response['value'] = 1;
-//            $response['msg'] = "Successfully created";
-//        } else {
-//            $response['isSuccess'] = false;
-//            $response['value'] = 0;
-//            $response['msg'] = "tf";
-//        }
-//
-//        return json_encode($response);
-//    }
 }
 
 $app = new Statement();
@@ -228,25 +201,20 @@ if (isset($_REQUEST['action']))
         $time = $_REQUEST['datetime'];
         $currency = $_REQUEST['currency'];
 
-        $response = $app->add($user, $type, $amount, $time, $description, $currency);
-
-        echo $response;
+        echo $app->add($user, $type, $amount, $time, $description, $currency);
     }
     if ($_REQUEST['action'] == 'isRead')
     {
         $user = $app->getUser($_SESSION['username']);
 
-        $response = $app->read($user);
-
-        echo $response;
+        echo $app->read($user);
     }
     if ($_REQUEST['action'] == 'isDelete')
     {
         $user = $app->getUser($_SESSION['username']);
         $id = $_REQUEST['id'];
-        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
-        $app->delete($user, $id);
+        echo $app->delete($user, $id);
     }
     if ($_REQUEST['action'] == 'isUpdate')
     {
@@ -257,9 +225,8 @@ if (isset($_REQUEST['action']))
         $description = $_REQUEST['description'];
         $time = $_REQUEST['datetime'];
         $currency = $_REQUEST['currency'];
-//        file_put_contents('php://stderr', print_r("lasdkfjalsdkjf", TRUE));
 
-        $app->update($user, $id, $amount, $type, $description, $time, $currency);
+        echo $app->update($user, $id, $amount, $type, $description, $time, $currency);
     }
     if ($_REQUEST['action'] == 'isTest')
     {
