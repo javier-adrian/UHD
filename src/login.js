@@ -38,28 +38,39 @@ var checkSession = function() {
 };
 
 var handleFormEvents = function () {
-    $.validate({
-        form: "#frmLogin",
+    $("#frmLogin").validate({
         modules: "security",
         rules: {
             username: "required",
             password: "required",
+        },
+        submitHandler: function () {
+            login()
+        },
+        errorPlacement: function (error, element) {
+            $(`#${element.attr("id")}-error`).html(`${error.html()}`);
+        }
+    });
+
+    $("#frmLogin input").on("input", function () {
+        var element = $(this);
+        if (element.valid()) {
+            $(`#${element.attr("id")}-error`).html(""); // Remove the error message
         }
     });
 };
 
-var onLogin = function () {
-    $("#frmLogin").submit(function(e) {
-        e.preventDefault();
-        $.blockUI(formatBlock());
+var login = function (e) {
+    // e.preventDefault();
+    $.blockUI(formatBlock());
 
-        var loginObj = $('#frmLogin').serializeArray();
+    var loginObj = $('#frmLogin').serializeArray();
 
-        $.post("scripts/php/login.php", loginObj, function(data) {
-            if (!data.isSuccess) {
-                var msg = data.msg;
+    $.post("scripts/php/login.php", loginObj, function(data) {
+        if (!data.isSuccess) {
+            var msg = data.msg;
 
-                var alert = `
+            var alert = `
                 <div class="text-sm align-middle md:text-base bg-red-100 border border-red-400 text-red-700 mb-4 px-4 py-3 pt-3.5 md:pt-3 rounded relative" role="alert">
                     ${msg}
                     <span class="absolute top-0 bottom-4 right-0 px-4 py-3">
@@ -68,32 +79,30 @@ var onLogin = function () {
                 </div>
                 `;
 
-                $("#admin-msg").html(alert);
+            $("#admin-msg").html(alert);
 
-                $("#dismiss").on("click", function () {
-                    $("#admin-msg").html("")
-                });
+            $("#dismiss").on("click", function () {
+                $("#admin-msg").html("")
+            });
 
-				// document.getElementById("dismiss").onclick = function () {
-				// 	document.getElementById("admin-msg").innerHTML = "";
-				// };
-            } else {
-                var msg = data.msg;
-                checkSession();
-            }
+            // document.getElementById("dismiss").onclick = function () {
+            // 	document.getElementById("admin-msg").innerHTML = "";
+            // };
+        } else {
+            var msg = data.msg;
+            checkSession();
+        }
 
-        }, "json");
+    }, "json");
 
-        $.unblockUI();
-    });
-};
+    $.unblockUI();
+}
 
 var Login = function() {
     return {
         init: function() {
             checkSession()
             handleFormEvents()
-            onLogin()
         }
     }
 }
