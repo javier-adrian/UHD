@@ -257,11 +257,6 @@ var deleteStatement = function (statement) {
             "id": statement},
         function (data) {
             console.log(data)
-            // for ([key, value] of Object.entries(data))
-            // {
-            //     $('#statements').append(item(value.id, value.amount, value.description, value.type, value.timestamp))
-            // }
-        // console.log(Object.entries(data))
     }, "json")
 
     getStatements()
@@ -344,19 +339,6 @@ var updateStatement = function (value) {
     $("#currency").val(currency);
 }
 
-// var getStatements = function () {
-//     $.get("../scripts/php/statement.php", {"action": "isRead"}, function (data) {
-//         $("#statements").html("")
-//
-//         for ([key, value] of Object.entries(data)) {
-//             console.log(value.currency)
-//             $("#statements").append(item(value.id, value.amount, value.description, value.type, value.timestamp, value.currency))
-//         }
-//
-//         console.log(Object.entries(data))
-//     }, "json")
-// }
-
 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 var getStatements = function () {
@@ -415,6 +397,4 @@ var getStatements = function () {
     }, "json")
 }
 
-
 getStatements()
-// read()
