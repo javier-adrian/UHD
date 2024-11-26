@@ -28,40 +28,12 @@ var checkSession = function() {
         var sessiondata = $.parseJSON(data);
 
         if(sessiondata.isSuccess) {
-            console.log("active session")
             $(location).attr("href", "dashboard/index.html");
-        } else {
-            console.log("inactive session")
-            // loadFirst();
-        }
-    });
-};
-
-var handleFormEvents = function () {
-    $("#frmLogin").validate({
-        modules: "security",
-        rules: {
-            username: "required",
-            password: "required",
-        },
-        submitHandler: function () {
-            login()
-        },
-        errorPlacement: function (error, element) {
-            $(`#${element.attr("id")}-error`).html(`${error.html()}`);
-        }
-    });
-
-    $("#frmLogin input").on("input", function () {
-        var element = $(this);
-        if (element.valid()) {
-            $(`#${element.attr("id")}-error`).html(""); // Remove the error message
         }
     });
 };
 
 var login = function (e) {
-    // e.preventDefault();
     $.blockUI(formatBlock());
 
     var loginObj = $('#frmLogin').serializeArray();
@@ -84,25 +56,33 @@ var login = function (e) {
             $("#dismiss").on("click", function () {
                 $("#admin-msg").html("")
             });
-
-            // document.getElementById("dismiss").onclick = function () {
-            // 	document.getElementById("admin-msg").innerHTML = "";
-            // };
         } else {
             var msg = data.msg;
-            checkSession();
         }
 
     }, "json");
 
     $.unblockUI();
+    checkSession();
 }
 
-var Login = function() {
-    return {
-        init: function() {
-            checkSession()
-            handleFormEvents()
-        }
+$("#frmLogin").validate({
+    modules: "security",
+    rules: {
+        username: "required",
+        password: "required",
+    },
+    submitHandler: function () {
+        login()
+    },
+    errorPlacement: function (error, element) {
+        $(`#${element.attr("id")}-error`).html(`${error.html()}`);
     }
-}
+});
+
+$("#frmLogin input").on("input", function () {
+    var element = $(this);
+    if (element.valid()) {
+        $(`#${element.attr("id")}-error`).html(""); // Remove the error message
+    }
+});
