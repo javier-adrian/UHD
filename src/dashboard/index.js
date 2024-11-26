@@ -9,7 +9,7 @@ var declareForm = function (type = "", amount, description, datetime, currency) 
     var hours = String(dateObject.getHours()).padStart(2, '0');
     var minutes = String(dateObject.getMinutes()).padStart(2, '0');
 
-    var formattedDate = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+    var formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
     return {
         message:
             `<form id="frmDeclare" class="p-4" action="#" method="POST">
@@ -22,11 +22,11 @@ var declareForm = function (type = "", amount, description, datetime, currency) 
                 </div>
 
                 <div class="inline-flex rounded-md shadow-sm" role="group">
-                    <input type="radio" id="income" name="type" value="income" class="hidden peer/income" ` + ((type === "income") ? "checked" : "") + `/>
+                    <input type="radio" id="income" name="type" value="income" class="hidden peer/income" ${(type === "income") ? "checked" : ""}/>
                     <label for="income" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-l border-t border-b border-gray-200 rounded-s-lg peer-checked/income:bg-blue-500 peer-checked/income:text-white hover:bg-blue-100">
                         Income
                     </label>
-                    <input type="radio" id="expense" name="type" value="expense" class="hidden peer/expense" ` + ((type === "expense") ? "checked" : "") + `/>
+                    <input type="radio" id="expense" name="type" value="expense" class="hidden peer/expense" ${(type === "expense") ? "checked" : ""}/>
                     <label for="expense" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-r border-t border-b border-gray-200 rounded-e-lg peer-checked/expense:bg-red-500 peer-checked/expense:text-white hover:bg-red-100">
                         Expense
                     </label>
@@ -34,10 +34,10 @@ var declareForm = function (type = "", amount, description, datetime, currency) 
 
                 <div class="flex flex-wrap justify-start mt-4">
                     <label for="datetime" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Date and Time</label>
-                    <input value="` + ((datetime) ? formattedDate : "") + `" id="datetime" name="datetime" type="datetime-local" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500" placeholder="MM/YY/DDDD">
+                    <input value="${(datetime) ? formattedDate : ""}" id="datetime" name="datetime" type="datetime-local" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500" placeholder="MM/YY/DDDD">
                     <label for="amount" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Amount</label>
                     <div class="flex flex-nowrap">
-                        <input value="` + ((amount) ? (amount / 100).toString() : "") + `" type="number" pattern="^\\d+(\\.|\\,)\\d{2}$" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
+                        <input value="${(amount) ? (amount / 100).toString() : ""}" type="number" pattern="^\\d+(\\.|\\,)\\d{2}$" id="amount" name="amount" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
                         <label for="currency" class="sr-only">Currency</label>
                         <select id="currency" name="currency" class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-0 sm:text-sm">
                           <option id="PHP" value="PHP">PHP</option>
@@ -59,13 +59,13 @@ var declareForm = function (type = "", amount, description, datetime, currency) 
                         </select>
                     </div>
                     <label for="description" class="w-full mt-4 ml-2 text-left text-gray-900 font-medium">Description</label>
-                    <input value="` + ((description) ? description : "") + `" type="text" id="description" name="description" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
+                    <input value="${(description) ? description : ""}" type="text" id="description" name="description" class="w-full pb-2 px-2 mx-2 border-0 border-b border-gray-400 focus:outline-none focus:ring-0 focus:border-red-500">
                 </div>
 
                 <div class="flex justify-end gap-4 mt-8 mb-3 mr-3">
-                    <button type="submit" class="py-2 px-2 rounded-full font-semibold text-sm bg-white text-` + ((type) ? "black" : "red") + `-500">
+                    <button type="submit" class="py-2 px-2 rounded-full font-semibold text-sm bg-white text-${(type) ? "black" : "red"}-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="` + svgCode + `" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="${svgCode}" />
                         </svg>
                     </button>
                 </div>
@@ -108,17 +108,16 @@ var spinner = function () {
 var item = function(id, amount, description, type, timestamp, currency) {
     console.log(currency)
     var date = new Date(timestamp*1000)
-    var yy = date.getFullYear().toString();
-    var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-    var dd  = date.getDate().toString();
-    var HH  = date.getHours().toString();
-    var MM  = date.getMinutes().toString();
-    var SS  = date.getSeconds().toString();
+    var year = date.getFullYear().toString();
+    var month = (date.getMonth()+1).toString(); // getMonth() is zero-based
+    var day  = date.getDate().toString();
+    var hour  = date.getHours().toString();
+    var minute  = date.getMinutes().toString();
 
-    if (MM.length == 1)
-        MM = "0" + MM
+    if (minute.length == 1)
+        minute = "0" + minute
 
-    var dateString = (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0]) + "/" + yy + " " + HH + ":" + MM
+    var dateString = `${month[1] ? month : '0' + month[0]}/${day[1] ? day : '0' + day[0]}/${year} ${hour}:${minute}`
 
     var color = "black"
     if (type === "expense")
@@ -126,26 +125,28 @@ var item = function(id, amount, description, type, timestamp, currency) {
     if (type === "income")
         color = "blue"
 
+
+
     return `
     <li class="flex justify-between gap-x-6 py-5">
         <div class="flex min-w-0 gap-x-6">
-            <div class="min-w-0 flex-auto pt-2 w-16 sm:w-32">
-                <p class="text-xl font-semibold text-` + color + `-500 text-right">` + currency + " " + (amount/100).toFixed(2) + `</p>
+            <div class="min-w-0 flex-auto sm:pt-2 w-16 sm:w-32">
+                <p class="text-xl font-semibold text-${color}-500 text-right"> <span class="text-black text-xs">${currency}</span> ${(amount/100).toFixed(2)}</p>
             </div>
             <div class="min-w-0 flex-auto">
-                <p class="text-sm/6 font-semibold text-gray-900">` + description + `</p>
-                <p class="mt-1 truncate text-xs/5 text-gray-500">` + dateString + `</p>
+                <p class="text-sm/6 font-semibold text-gray-900">${description}</p>
+                <p class="mt-1 truncate text-xs/5 text-gray-500">${dateString}</p>
             </div>
         </div>
         <div class="ml-4 flex flex-wrap gap-4 sm:gap-8 justify-end md:ml-6 md:mr-6 relative">
-            <button onclick="updateStatement(` + id.toString() + ", " + amount.toString() + ", '" + description + "', '" + type + "', " + timestamp + ", '" + currency + `' )" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
+            <button onclick="updateStatement(${id.toString()}, ${amount.toString()}, '${description}', '${type}', ${timestamp}, '${currency}')" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
                 <svg class="size-4 sm:size-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
                 </svg>
             </button>
-            <button onclick="deleteStatement(` + id.toString() + `)" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
+            <button onclick="deleteStatement(${id.toString()})" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
                 <svg class="size-4 sm:size-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
