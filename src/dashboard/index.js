@@ -132,25 +132,29 @@ var item = function(id, amount, description, type, timestamp, currency, datetime
         color = "blue"
 
     return `
-    <li class="flex justify-between gap-x-6 py-5">
+    <li class="group flex justify-between gap-x-6 py-5 relative">
         <div class="flex min-w-0 gap-x-6">
             <div class="min-w-0 flex-auto sm:pt-2 w-16 sm:w-32">
                 <p class="text-xl font-semibold text-${color}-500 text-right"> <span class="text-black text-xs">${currency}</span> ${(amount/100).toFixed(2)}</p>
             </div>
             <div class="min-w-0 flex-auto">
-                <p class="text-sm/6 font-semibold text-gray-900">${description}</p>
-                <p class="mt-1 truncate text-xs/5 text-gray-500">${timestamp.toString().slice(0,-3)}</p>
+                <p class="text-sm/6 font-semibold text-gray-900">${description} <span class="ml-2 truncate font-medium text-xs/5 text-gray-500 inline md:hidden">${timestamp.toString().slice(0,-3)}</span></p>
             </div>
         </div>
+
+        <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden md:block">
+            <p class="mt-1 truncate text-xs/5 text-gray-500">${timestamp.toString().slice(0,-3)}</p>
+        </div>
+
         <div class="ml-4 flex flex-wrap gap-4 sm:gap-8 justify-end md:ml-6 md:mr-6 relative">
-            <button onclick="updateStatement(${id.toString()}, ${amount.toString()}, '${description}', '${type}', ${new Date(datetime).valueOf() / 1000}, '${currency}')" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
+            <button onclick="updateStatement(${id.toString()}, ${amount.toString()}, '${description}', '${type}', ${new Date(datetime).valueOf() / 1000}, '${currency}')" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <svg class="size-4 sm:size-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
                 </svg>
             </button>
-            <button onclick="deleteStatement(${id.toString()})" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm">
+            <button onclick="deleteStatement(${id.toString()})" class="basis-full sm:basis-0 rounded-full bg-white relative flex max-w-xs items-center text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <svg class="size-4 sm:size-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -203,14 +207,14 @@ var showDeclareForm = function () {
             getStatements()
         }, "json")
 
-        $('#frmDeclare').unblockUI();
+        $('#frmDeclare').unblock();
         hideDeclareForm()
-        $("body").removeClass("no-scroll")
     })
 }
 
 var hideDeclareForm = function () {
     $.unblockUI();
+    $("body").removeClass("no-scroll")
 }
 
 var logout = function () {
@@ -292,9 +296,8 @@ var updateStatement = function (id, amount, description, type, datetime, currenc
         }, "json")
 
         getStatements()
-        $("#frmDeclare").unblockUI();
+        $("#frmDeclare").unblock();
         hideDeclareForm()
-        $("body").removeClass("no-scroll")
     })
 }
 
@@ -327,7 +330,6 @@ var getStatements = function () {
                             <h2 class="flex-shrink mx-4 px-3 py-8 text-center text-8xl font-semibold text-stone-900">${year}</h2>
                         <div class="flex-grow border-t border-gray-200"></div>
                     </div>
-                
                 `)
             }
             for ([month, value] of Object.entries(data[year]).reverse()) {
