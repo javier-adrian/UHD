@@ -1,3 +1,12 @@
+var checkSession = function() {
+    $.get("../scripts/php/checkSession.php", function(data) {
+        console.log(!$.parseJSON(data).isSuccess)
+        if (!$.parseJSON(data).isSuccess) {
+            $(location).attr("href", "../index.html");
+        }
+    });
+};
+
 var formatDate = function (datetime) {
     var dateObject = new Date(datetime * 1000);
 
@@ -397,4 +406,5 @@ var getStatements = function () {
     }, "json")
 }
 
+checkSession()
 getStatements()
