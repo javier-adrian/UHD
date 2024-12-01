@@ -246,6 +246,8 @@ var hideDeclareForm = function () {
 }
 
 var logout = function () {
+    Cookies.remove('username')
+    Cookies.remove('password')
     $.get("../scripts/php/unsetSession.php", function (data) {
         var sessiondata = $.parseJSON(data);
 

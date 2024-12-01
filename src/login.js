@@ -56,8 +56,21 @@ var login = function (e) {
             });
         } else {
             var msg = data.msg;
+            if ($("#remember").is("checked")) {
+                Cookies.set('username', loginObj[0]['value'])
+                Cookies.set('password', loginObj[1]['value'])
+            }
         }
+    }, "json");
 
+    $.unblockUI();
+    checkSession();
+}
+
+var autoLogin = function () {
+    $.blockUI(formatBlock());
+
+    $.post("scripts/php/login.php", {"username": Cookies.get("username"), "password": Cookies.get("password"), "action": "isLogin"}, function(data) {
     }, "json");
 
     $.unblockUI();
@@ -84,3 +97,5 @@ $("#frmLogin input").on("input", function () {
         $(`#${element.attr("id")}-error`).html(""); // Remove the error message
     }
 });
+
+autoLogin()
