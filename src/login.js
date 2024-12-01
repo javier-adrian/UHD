@@ -58,7 +58,6 @@ var login = function (e) {
         } else {
             var msg = data.msg;
             if ($("#remember").is(":checked")) {
-                console.log("salkdjfasdlkfjaslkfjdaslj")
                 Cookies.set('username', loginObj[0]['value'], { expires: 30, path: '' })
                 Cookies.set('password', loginObj[1]['value'], { expires: 30, path: '' })
             }
@@ -100,5 +99,4 @@ $("#frmLogin input").on("input", function () {
     }
 });
 
-console.log(Cookies.get("username"))
 autoLogin()
