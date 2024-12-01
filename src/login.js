@@ -32,6 +32,7 @@ var checkSession = function() {
 };
 
 var login = function (e) {
+    console.log($("#remember").is("checked"))
     $.blockUI(formatBlock());
 
     var loginObj = $('#frmLogin').serializeArray();
@@ -56,9 +57,10 @@ var login = function (e) {
             });
         } else {
             var msg = data.msg;
-            if ($("#remember").is("checked")) {
-                Cookies.set('username', loginObj[0]['value'])
-                Cookies.set('password', loginObj[1]['value'])
+            if ($("#remember").is(":checked")) {
+                console.log("salkdjfasdlkfjaslkfjdaslj")
+                Cookies.set('username', loginObj[0]['value'], { expires: 30, path: '' })
+                Cookies.set('password', loginObj[1]['value'], { expires: 30, path: '' })
             }
         }
     }, "json");
@@ -98,4 +100,5 @@ $("#frmLogin input").on("input", function () {
     }
 });
 
+console.log(Cookies.get("username"))
 autoLogin()

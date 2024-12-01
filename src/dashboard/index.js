@@ -354,7 +354,7 @@ var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'A
 
 var getStatements = function () {
     $.get("../scripts/php/statement.php", {"action": "isRead"}, function (data) {
-        console.log(data)
+        // console.log(data)
 
         $("#statements").html("")
 
@@ -388,7 +388,7 @@ var getStatements = function () {
                     }
 
                     for (let [id, value] of Object.entries(data[year][month][day]).reverse()) { // let to restart the value for some reason???
-                        console.log(value)
+                        // console.log(value)
 
                         $(`#${year}${month}${day}`).append(item(value))
 
@@ -400,7 +400,7 @@ var getStatements = function () {
                             updateStatement(value)
                         })
 
-                        console.log($(`#${id} .itemUpdate`))
+                        // console.log($(`#${id} .itemUpdate`))
                     }
                 }
             }
