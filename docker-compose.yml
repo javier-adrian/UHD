@@ -13,7 +13,7 @@ services:
 
   db:
     image: mariadb:11.6
-    container_name: mariadb
+    #    container_name: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: ....
       MYSQL_DATABASE: yamm

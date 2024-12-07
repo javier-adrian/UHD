@@ -3,7 +3,7 @@
 	{
 		public function __construct()
 		{
-			$servername = "mariadb";
+			$servername = "localhost";
 			$username = "creui";
 			$password = "....";
 			$dbname = "yamm";
