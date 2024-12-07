@@ -3,10 +3,10 @@
 	{
 		public function __construct()
 		{
-			$servername = "localhost";
+			$servername = "mariadb";
 			$username = "creui";
 			$password = "....";
-			$dbname = "health";
+			$dbname = "yamm";
 
 			$conn = new mysqli($servername, $username, $password, $dbname);
 
