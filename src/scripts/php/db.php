@@ -3,12 +3,12 @@
 	{
 		public function __construct()
 		{
-			$servername = "localhost";
+			$servername = "mariadb";
 			$username = "creui";
 			$password = "....";
 			$dbname = "yamm";
 
-			$conn = new mysqli("tcp://", $servername, $username, $password, $dbname);
+			$conn = new mysqli($servername, $username, $password, $dbname);
 
 			$this->conn = $conn;
 		}
