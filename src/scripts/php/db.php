@@ -3,10 +3,10 @@
 	{
 		public function __construct()
 		{
-			$servername = "mariadb";
-			$username = "creui";
-			$password = "....";
-			$dbname = "yamm";
+			$servername = getenv("db_host");
+			$username = getenv("db_user");
+			$password = getenv("db_password");
+			$dbname = getenv("db");
 
 			$conn = new mysqli($servername, $username, $password, $dbname);
 
