@@ -132,7 +132,7 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, TO_CHAR(timestamp, 'HH24:MI:SS'), description, type, currency, timestamp FROM statement WHERE user = ? AND description LIKE ? ORDER BY timestamp";
+            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, DATE_FORMAT(timestamp_column, '%H:%i:%s'), description, type, currency, timestamp FROM statement WHERE user = ? AND description LIKE ? ORDER BY timestamp";
 
             if ($stmt = $conn->prepare($query))
             {
