@@ -211,6 +211,12 @@ var showDeclareForm = function () {
         hideDeclareForm()
     })
 
+    $(".hideButton").on("keydown", function (e) {
+        if (e.keyCode ===  27) {
+            $(this).click()
+        }
+    });
+
     $("#frmDeclare").validate({
         modules: "security",
         ignore: ".ignore",
@@ -409,14 +415,22 @@ var getStatements = function (search) {
     }, "json")
 }
 
-var search = function (text) {
-    getStatements(text)
-}
-
 $("#search").on("keydown", function (e) {
-    search($(this).val())
+    if (e.keyCode === 27) {
+        $("#search").blur()
+    }
+    getStatements($("#search").val())
 });
 
+$(document).on("keydown", function (e) {
+    if (e.ctrlKey && e.keyCode === 75) {
+        $("#search").focus()
+    }
+
+    if (e.ctrlKey && e.keyCode === 67) {
+        $("#add").click()
+    }
+});
 
 checkSession()
 getStatements()
