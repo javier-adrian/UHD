@@ -420,6 +420,7 @@ $("#search").on("keydown", function (e) {
         $("#search").blur()
     }
     getStatements($("#search").val())
+    // lskdjf
 });
 
 $(document).on("keydown", function (e) {
