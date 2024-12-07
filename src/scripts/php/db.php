@@ -8,7 +8,7 @@
 			$password = "....";
 			$dbname = "yamm";
 
-			$conn = new mysqli($servername, $username, $password, $dbname);
+			$conn = new mysqli("tcp://", $servername, $username, $password, $dbname);
 
 			$this->conn = $conn;
 		}
