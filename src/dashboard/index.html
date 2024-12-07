@@ -30,24 +30,29 @@
                 </div>
             </nav>
 
-            <script src="../scripts/jquery/jquery-3.7.1.min.js"></script>
-            <script src="../scripts/jquery/jquery.BlockUI.js"></script>
-            <script src="../scripts/jquery/validate.min.js"></script>
-            <script src="../scripts/jquery/js-cookie.min.js"></script>
-            <script src="index.js"></script>
-
             <main class="px-6 sm:px-6 lg:px-16 max-w-7xl mx-auto">
-                <div class="py-6">
-                    <button type="button" onclick="showDeclareForm()" class="px-2 py-2 bg-white font-semibold rounded-full justify-center text-red-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                    </button>
+                <div class="flex">
+                    <div class="py-6">
+                        <button type="button" onclick="showDeclareForm()" class="px-2 py-2 bg-white font-semibold rounded-full justify-center text-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <input type="text" name="search" id="search" placeholder="Search..." class="my-6 border-0 border-b border-gray-100 transition-colors duration-300 w-full focus:border-stone-500 focus:ring-0">
                 </div>
 
                 <ul id="statements" role="list" class="">
                 </ul>
             </main>
         </div>
+
+        <script src="../scripts/jquery/jquery-3.7.1.min.js"></script>
+        <script src="../scripts/jquery/jquery.BlockUI.js"></script>
+        <script src="../scripts/jquery/validate.min.js"></script>
+        <script src="../scripts/jquery/js-cookie.min.js"></script>
+        <script src="index.js"></script>
+
     </body>
 </html>

@@ -352,9 +352,10 @@ var updateStatement = function (value) {
 
 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-var getStatements = function () {
-    $.get("../scripts/php/statement.php", {"action": "isRead"}, function (data) {
-        // console.log(data)
+var getStatements = function (search) {
+    let description = (search) ? search : ""
+    console.log()
+    $.get("../scripts/php/statement.php", {"action": "isRead", "search": description}, function (data) {
 
         $("#statements").html("")
 
@@ -407,6 +408,15 @@ var getStatements = function () {
         }
     }, "json")
 }
+
+var search = function (text) {
+    getStatements(text)
+}
+
+$("#search").on("keydown", function (e) {
+    search($(this).val())
+});
+
 
 checkSession()
 getStatements()

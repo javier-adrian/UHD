@@ -122,7 +122,7 @@ class Statement
         }
     }
 
-    public function read($user)
+    public function read($user, $description)
     {
         error_reporting(E_ERROR);
 
@@ -132,11 +132,12 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, TO_CHAR(timestamp, 'HH24:MI:SS'), description, type, currency, timestamp FROM statement WHERE user = ? ORDER BY timestamp";
+            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, TO_CHAR(timestamp, 'HH24:MI:SS'), description, type, currency, timestamp FROM statement WHERE user = ? AND description LIKE ? ORDER BY timestamp";
 
             if ($stmt = $conn->prepare($query))
             {
-                $stmt->bind_param("i",  $user);
+                $description = "%" . $description . "%";
+                $stmt->bind_param("is",  $user, $description);
 
                 $statements = array();
                 $statement = array();
@@ -207,7 +208,8 @@ if (isset($_REQUEST['action']))
     {
         $user = $app->getUser($_SESSION['username']);
 
-        echo $app->read($user);
+        echo $app->read($user, $_REQUEST['search']);
+        file_put_contents('php://stderr', print_r($_REQUEST['search'], TRUE));
     }
     if ($_REQUEST['action'] == 'isDelete')
     {
