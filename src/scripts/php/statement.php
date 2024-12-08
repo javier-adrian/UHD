@@ -122,7 +122,7 @@ class Statement
         }
     }
 
-    public function read($user, $description)
+    public function read($user, $description, $type)
     {
         error_reporting(E_ERROR);
 
@@ -132,12 +132,13 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, DATE_FORMAT(timestamp, '%H:%i:%s'), description, type, currency, timestamp FROM statement WHERE user = ? AND description LIKE ? ORDER BY timestamp";
+            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, DATE_FORMAT(timestamp, '%H:%i:%s'), description, type, currency, timestamp FROM statement WHERE user = ? AND description LIKE ? AND type LIKE ? ORDER BY timestamp";
 
             if ($stmt = $conn->prepare($query))
             {
                 $description = "%" . $description . "%";
-                $stmt->bind_param("is",  $user, $description);
+                $type = "%" . $type . "%";
+                $stmt->bind_param("iss",  $user, $description, $type);
 
                 $statements = array();
                 $statement = array();
@@ -208,7 +209,7 @@ if (isset($_REQUEST['action']))
     {
         $user = $app->getUser($_SESSION['username']);
 
-        echo $app->read($user, $_REQUEST['search']);
+        echo $app->read($user, $_REQUEST['search'], $_REQUEST['type']);
         file_put_contents('php://stderr', print_r($_REQUEST['search'], TRUE));
     }
     if ($_REQUEST['action'] == 'isDelete')

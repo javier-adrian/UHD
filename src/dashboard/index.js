@@ -358,8 +358,14 @@ var updateStatement = function (value) {
 
 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-var getStatements = function (search) {
-    $.get("../scripts/php/statement.php", {"action": "isRead", "search": search}, function (data) {
+var getStatements = function () {
+    let readObj = {
+        "action": "isRead",
+        "search": $("#search").val(),
+        "type": $("input[name=type-filter]:checked").val()
+    }
+
+    $.get("../scripts/php/statement.php", readObj, function (data) {
 
         $("#statements").html("")
 
@@ -413,12 +419,17 @@ var getStatements = function (search) {
     }, "json")
 }
 
+$("input[name=type-filter]").on("change", function (e) {
+    $("input[name=type-filter]").not(this).prop('checked', false)
+
+    getStatements()
+});
+
 $("#search").on("keydown", function (e) {
     if (e.keyCode === 27) {
         $("#search").blur()
     }
-    getStatements($("#search").val())
-    // lskdjf
+    getStatements()
 });
 
 $(document).on("keydown", function (e) {
