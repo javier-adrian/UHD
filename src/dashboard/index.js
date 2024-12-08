@@ -359,9 +359,7 @@ var updateStatement = function (value) {
 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 var getStatements = function (search) {
-    let description = (search) ? search : ""
-    console.log()
-    $.get("../scripts/php/statement.php", {"action": "isRead", "search": description}, function (data) {
+    $.get("../scripts/php/statement.php", {"action": "isRead", "search": search}, function (data) {
 
         $("#statements").html("")
 
