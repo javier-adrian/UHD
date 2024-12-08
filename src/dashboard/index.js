@@ -142,11 +142,11 @@ var item = function(value) {
     return `
     <li id="${id}" class="group flex justify-between gap-x-6 py-5 relative">
         <div class="flex min-w-0 gap-x-6">
-            <div class="min-w-0 flex-auto sm:pt-2 w-16 sm:w-32">
+            <div class="min-w-32 flex-auto sm:pt-2 w-16 sm:w-32">
                 <p class="text-xl font-semibold text-${color}-500 text-right"> <span class="text-black text-xs">${currency}</span> ${(amount/100).toFixed(2)}</p>
             </div>
             <div class="min-w-0 flex-auto">
-                <p class="text-sm/6 font-semibold text-gray-900">${description} <span class="ml-2 truncate font-medium text-xs/5 text-gray-500 inline md:hidden">${timestamp.toString().slice(0,-3)}</span></p>
+                <p class="text-sm/6 font-semibold text-gray-900">${description}<span class="ml-2 text-nowrap font-medium text-xs/5 text-gray-500 inline md:hidden">${timestamp.toString().slice(0,-3)}</span></p>
             </div>
         </div>
 

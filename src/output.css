@@ -1095,6 +1095,22 @@ select {
   min-width: 0px;
 }
 
+.min-w-4 {
+  min-width: 1rem;
+}
+
+.min-w-8 {
+  min-width: 2rem;
+}
+
+.min-w-16 {
+  min-width: 4rem;
+}
+
+.min-w-32 {
+  min-width: 8rem;
+}
+
 .max-w-7xl {
   max-width: 80rem;
 }
