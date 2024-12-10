@@ -359,15 +359,17 @@ var updateStatement = function (value) {
 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 var getStatements = function () {
-    // console.log($("#from").val() ? "yes":"no")
-
     let readObj = {
         "action": "isRead",
         "search": $("#search").val(),
         "type": $("input[name=type-filter]:checked").val(),
         "from": $("#from").val() ? new Date($("#from").val()).valueOf() / 1000 : null,
-        "to": $("#to").val() ? new Date($("#to").val()).valueOf() / 1000 : null
+        "to": $("#to").val() ? new Date($("#to").val()).valueOf() / 1000 : null,
+        "min": $("#min").val() ? parseInt($("#min").val()) : null,
+        "max": $("#max").val() ? parseInt($("#max").val()) : null
     }
+
+    console.log(readObj)
 
     $.get("../scripts/php/statement.php", readObj, function (data) {
 
@@ -436,10 +438,20 @@ $("#to").on("change", function (e) {
     getStatements()
 });
 
+$("#min").on("change", function (e) {
+    getStatements()
+});
+$("#max").on("change", function (e) {
+    getStatements()
+});
+
 $("#clear").on("click", function (e) {
     $("#to").val("")
     $("#from").val("")
     $("input[name=type-filter]").prop('checked', false)
+    $("#min").val("")
+    $("#max").val("")
+
     getStatements()
 });
 

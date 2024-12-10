@@ -122,7 +122,7 @@ class Statement
         }
     }
 
-    public function read($user, $description, $type, $from, $to)
+    public function read($user, $description, $type, $from, $to, $min, $max)
     {
         error_reporting(E_ERROR);
 
@@ -149,10 +149,23 @@ class Statement
                 $types .= "i";
             }
 
+            if (!empty($min)) {
+                file_put_contents('php://stderr', print_r("query", TRUE));
+                $query .= " AND amount >= ?";
+                $params[] = $_REQUEST['min'] * 100;
+                $types .= "i";
+            }
+
+            if (!empty($max)) {
+                file_put_contents('php://stderr', print_r("query", TRUE));
+                $query .= " AND amount <= ?";
+                $params[] = $_REQUEST['max'] * 100;
+                $types .= "i";
+            }
+
             $query .= " ORDER BY timestamp";
 
-            file_put_contents('php://stderr', print_r($query, TRUE));
-
+//            file_put_contents('php://stderr', print_r($query, TRUE));
 
             if ($stmt = $conn->prepare($query))
             {
@@ -229,7 +242,7 @@ if (isset($_REQUEST['action']))
     {
         $user = $app->getUser($_SESSION['username']);
 
-        echo $app->read($user, $_REQUEST['search'], $_REQUEST['type'], $_REQUEST['from'], $_REQUEST['to']);
+        echo $app->read($user, $_REQUEST['search'], $_REQUEST['type'], $_REQUEST['from'], $_REQUEST['to'], $_REQUEST['min'], $_REQUEST['max']);
         file_put_contents('php://stderr', print_r($_REQUEST['search'], TRUE));
     }
     if ($_REQUEST['action'] == 'isDelete')
