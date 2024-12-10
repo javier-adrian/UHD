@@ -359,10 +359,14 @@ var updateStatement = function (value) {
 var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 var getStatements = function () {
+    // console.log($("#from").val() ? "yes":"no")
+
     let readObj = {
         "action": "isRead",
         "search": $("#search").val(),
-        "type": $("input[name=type-filter]:checked").val()
+        "type": $("input[name=type-filter]:checked").val(),
+        "from": $("#from").val() ? new Date($("#from").val()).valueOf() / 1000 : null,
+        "to": $("#to").val() ? new Date($("#to").val()).valueOf() / 1000 : null
     }
 
     $.get("../scripts/php/statement.php", readObj, function (data) {
@@ -422,6 +426,20 @@ var getStatements = function () {
 $("input[name=type-filter]").on("change", function (e) {
     $("input[name=type-filter]").not(this).prop('checked', false)
 
+    getStatements()
+});
+
+$("#from").on("change", function (e) {
+    getStatements()
+});
+$("#to").on("change", function (e) {
+    getStatements()
+});
+
+$("#clear").on("click", function (e) {
+    $("#to").val("")
+    $("#from").val("")
+    $("input[name=type-filter]").prop('checked', false)
     getStatements()
 });
 

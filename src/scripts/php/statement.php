@@ -122,7 +122,7 @@ class Statement
         }
     }
 
-    public function read($user, $description, $type)
+    public function read($user, $description, $type, $from, $to)
     {
         error_reporting(E_ERROR);
 
@@ -132,13 +132,33 @@ class Statement
         if ($conn->connect_error)
             return $conn->connect_error;
         else {
-            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, DATE_FORMAT(timestamp, '%H:%i:%s'), description, type, currency, timestamp FROM statement WHERE user = ? AND description LIKE ? AND type LIKE ? ORDER BY timestamp";
+            $query = "SELECT DAY(timestamp) AS day, MONTH(timestamp) AS month, YEAR(timestamp) AS year, id, amount, DATE_FORMAT(timestamp, '%H:%i:%s'), description, type, currency, timestamp FROM statement WHERE user = ? AND description LIKE ? AND type LIKE ?";
+
+            $params = [];
+            $types = "";
+
+            if (!empty($_REQUEST['to'])) {
+                $query .= " AND timestamp <= from_unixtime(?)";
+                $params[] = $_REQUEST['to'];
+                $types .= "i";
+            }
+
+            if (!empty($_REQUEST['from'])) {
+                $query .= " AND timestamp >= from_unixtime(?)";
+                $params[] = $_REQUEST['from'];
+                $types .= "i";
+            }
+
+            $query .= " ORDER BY timestamp";
+
+            file_put_contents('php://stderr', print_r($query, TRUE));
+
 
             if ($stmt = $conn->prepare($query))
             {
                 $description = "%" . $description . "%";
                 $type = "%" . $type . "%";
-                $stmt->bind_param("iss",  $user, $description, $type);
+                $stmt->bind_param("iss" . $types,  $user, $description, $type, ...$params);
 
                 $statements = array();
                 $statement = array();
@@ -209,7 +229,7 @@ if (isset($_REQUEST['action']))
     {
         $user = $app->getUser($_SESSION['username']);
 
-        echo $app->read($user, $_REQUEST['search'], $_REQUEST['type']);
+        echo $app->read($user, $_REQUEST['search'], $_REQUEST['type'], $_REQUEST['from'], $_REQUEST['to']);
         file_put_contents('php://stderr', print_r($_REQUEST['search'], TRUE));
     }
     if ($_REQUEST['action'] == 'isDelete')
