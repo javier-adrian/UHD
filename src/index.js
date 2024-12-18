@@ -31,7 +31,7 @@ var checkSession = function() {
     });
 };
 
-var login = function (e) {
+var index = function (e) {
     console.log($("#remember").is("checked"))
     $.blockUI(formatBlock());
 
@@ -85,7 +85,7 @@ $("#frmLogin").validate({
         password: "required",
     },
     submitHandler: function () {
-        login()
+        index()
     },
     errorPlacement: function (error, element) {
         $(`#${element.attr("id")}-error`).html(`${error.html()}`);
