@@ -1549,30 +1549,6 @@ select {
   src: url("assets/Inter-VariableFont_slnt,wght.ttf");
 }
 
-.blockUI {
-  position: fixed;
-  /* Keep it fixed on the screen */
-  top: 50%;
-  /* Center vertically */
-  left: 50%;
-  /* Center horizontally */
-  transform: translate(-50%, -50%);
-  /* Fine-tune the centering */
-  z-index: 9999;
-  /* Ensure it stays on top */
-  display: none;
-  /* Hidden by default */
-}
-
-.blockUI.blockOverlay {
-  width: 100%;
-  /* Make sure it spans the full width */
-  height: 100vh;
-  /* Cover the full height of the screen */
-  top: 0;
-  left: 0;
-}
-
 .no-scroll {
   overflow: hidden;
 }
