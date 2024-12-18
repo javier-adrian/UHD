@@ -455,6 +455,14 @@ $("#clear").on("click", function (e) {
     getStatements()
 });
 
+$("#logout").on("click", function (e) {
+    logout()
+});
+
+$("#add").on("click", function (e) {
+    showDeclareForm()
+});
+
 $("#search").on("keydown", function (e) {
     if (e.keyCode === 27) {
         $("#search").blur()
